@@ -4,7 +4,7 @@ import "./index.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import MainLayout from "./layout/MainLayout";
 import Home from "./Components/Home/Home";
-
+import TestNavbar from "../src/Shared/TestNavbar";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -14,6 +14,14 @@ const router = createBrowserRouter([
         path: "/",
         element: <Home></Home>,
       },
+      {
+        path: "/test",
+        element: <TestNavbar></TestNavbar>,
+      },
+      // {
+      //   path: "/navbar",
+      //   element: <Navbar></Navbar>,
+      // },
     ],
   },
 ]);

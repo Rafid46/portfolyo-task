@@ -1,5 +1,7 @@
+import Navbar from "../../Shared/Navbar";
+
 const Home = () => {
-  return <div>Home</div>;
+  return <div>home</div>;
 };
 
 export default Home;

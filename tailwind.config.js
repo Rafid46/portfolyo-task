@@ -3,7 +3,15 @@
 export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        poppins: "'Poppins', sans-serif",
+        brolimo: ["BrolimoRegular"],
+        grotest: ["ArchivGroteskTrial-RegularTrial"],
+        neue: ["NeueMontreal-Regular"],
+        founderGrotest: ["FoundersGrotesk-Semibold"],
+      },
+    },
   },
   plugins: [require("daisyui")],
 };
