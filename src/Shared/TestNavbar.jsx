@@ -1,45 +1,59 @@
 /* eslint-disable react/prop-types */
-import { useMotionValue, motion, useSpring, useTransform } from "framer-motion";
+import {
+  useMotionValue,
+  motion,
+  useSpring,
+  useTransform,
+  AnimatePresence,
+} from "framer-motion";
 import { useRef } from "react";
 import { FiArrowRight } from "react-icons/fi";
 
 const TestNavbar = () => {
   return (
-    <section className="bg-neutral-950 p-4 md:p-8">
-      <div className="mx-auto max-w-5xl">
-        <Link heading="Home" subheading="Let's go home" href="/" />
-        <Link
-          heading="About"
-          subheading="Learn what we do here"
-          imgSrc="https://i.ibb.co/SdzrL6p/3264840-599-Converted.jpg"
-          href="/navbar"
-        />
-        <Link
-          heading="Services"
-          subheading="We work with great people"
-          imgSrc="/imgs/random/6.jpg"
-          href="#"
-        />
-        <Link
-          heading="Portfolio"
-          subheading="Our work speaks for itself"
-          imgSrc="/imgs/random/4.jpg"
-          href="#"
-        />
-        <Link
-          heading="Skills"
-          subheading="See our arsenal"
-          imgSrc="/imgs/random/5.jpg"
-          href="#"
-        />
-        <Link
-          heading="Contact"
-          subheading="Get in touch"
-          imgSrc="/imgs/random/10.jpg"
-          href="#"
-        />
-      </div>
-    </section>
+    <AnimatePresence>
+      <motion.section
+        initial={{ scale: 0, width: 0 }}
+        animate={{ scale: 1, width: "100vw" }}
+        exit={{ scale: 0, width: "100vw" }}
+        transition={{ ease: "easeInOut", duration: 0.5 }}
+        className="bg-neutral-950 p-4 md:p-8"
+      >
+        <div className="mx-auto max-w-5xl">
+          <Link heading="Home" subheading="Let's go home" href="/" />
+          <Link
+            heading="About"
+            subheading="Learn what we do here"
+            imgSrc="https://i.ibb.co/SdzrL6p/3264840-599-Converted.jpg"
+            href="/navbar"
+          />
+          <Link
+            heading="Services"
+            subheading="We work with great people"
+            imgSrc="/imgs/random/6.jpg"
+            href="#"
+          />
+          <Link
+            heading="Portfolio"
+            subheading="Our work speaks for itself"
+            imgSrc="/imgs/random/4.jpg"
+            href="#"
+          />
+          <Link
+            heading="Skills"
+            subheading="See our arsenal"
+            imgSrc="/imgs/random/5.jpg"
+            href="#"
+          />
+          <Link
+            heading="Contact"
+            subheading="Get in touch"
+            imgSrc="/imgs/random/10.jpg"
+            href="#"
+          />
+        </div>
+      </motion.section>
+    </AnimatePresence>
   );
 };
 
