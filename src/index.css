@@ -2,10 +2,21 @@
 @tailwind components;
 @tailwind utilities;
 
+/* .maskStyle {
+  position: absolute;
+  mask-image: url("../src/assets/Ellipse\ 1.png");
+  background: rgb(255, 4, 4);
+  mask-repeat: no-repeat;
+  mask-position: 50%;
+  mask-size: 400px;
+  color: #750bff;
+  z-index: 9999;
+} */
+/* cursor */
 * {
   cursor: none;
 }
-.cursor {
+/* .cursor {
   background-color: #111;
   height: 32px;
   width: 32px;
@@ -14,6 +25,28 @@
   top: 0;
   left: 0;
   pointer-events: none;
+} */
+.cursor {
+  width: 20px;
+  height: 20px;
+  background-color: #e8e8e8;
+  border: none;
+  position: fixed;
+  border-radius: 50%;
+  pointer-events: none;
+  mix-blend-mode: difference;
+  z-index: 9999;
+  transition: transform 0.3s ease;
+}
+.software:hover + .cursor {
+  transform: scale(5);
+}
+.hoverStyle:hover ~ .cursor {
+  transform: scale(5);
+}
+/* .softwareNone:hover ~ .cursor {
+  cursor: pointer;
+  background-color: transparent;
 }
 /* FONTS */
 @font-face {
@@ -71,7 +104,6 @@
   color: #fff;
   cursor: pointer;
   display: inline-block;
-  float: right;
   font-weight: 700;
   letter-spacing: 0.05em;
   margin: 0;

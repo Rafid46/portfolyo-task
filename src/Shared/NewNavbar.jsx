@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import TestNavbar from "./TestNavbar";
 import { RiMenu2Line } from "react-icons/ri";
 import { AnimatePresence, motion } from "framer-motion";
@@ -10,16 +10,44 @@ const NewNavbar = () => {
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
+  const [mousePosition, setMousePosition] = useState({
+    x: 0,
+    y: 0,
+  });
+  const updateMousePosition = (e) => {
+    setMousePosition({ x: e.clientX, y: e.clientY });
+  };
+  useEffect(() => {
+    window.addEventListener("mousemove", updateMousePosition);
 
+    return () => {
+      window.removeEventListener("mousemove", updateMousePosition);
+    };
+  });
+  const { x, y } = mousePosition;
   return (
     <div className="navbar bg-transparent">
       <div className="navbar-start">
         <details className="dropdown">
           <summary className="m-1 ml-5 cursor-pointer" onClick={toggleMenu}>
-            <p className="text-3xl text-white">
-              {" "}
-              <PiDotsNineBold />
-            </p>
+            <div className="">
+              <motion.div
+                animate={{ WebkitMaskPosition: `${x}px ${y}px` }}
+                transition={{ type: "tween", ease: "backOut" }}
+                className="absolute maskStyle"
+              >
+                <p className="text-3xl text-white ">
+                  {" "}
+                  <PiDotsNineBold className="" />
+                </p>
+              </motion.div>
+              <div>
+                <p className="text-3xl text-white ">
+                  {" "}
+                  <VscCircleLarge className="" />
+                </p>
+              </div>
+            </div>
           </summary>
           <AnimatePresence>
             {isOpen && (
@@ -37,24 +65,8 @@ const NewNavbar = () => {
       </div>
       <div className="navbar-end">
         <button className="btn btn-ghost btn-circle">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-5 w-5"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-            />
-          </svg>
-        </button>
-        <button className="btn btn-ghost btn-circle">
           <div className="indicator">
-            <VscCircleLarge className="text-3xl text-white" />
+            <VscCircleLarge className="hoverStyle text-3xl text-white" />
             {/* <span className="badge badge-xs badge-primary indicator-item"></span> */}
           </div>
         </button>

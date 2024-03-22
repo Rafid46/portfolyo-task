@@ -42,7 +42,12 @@ const Home = () => {
       </motion.button>
     );
   };
-
+  const [cursorX, setCursorX] = useState();
+  const [cursorY, setCursorY] = useState();
+  window.addEventListener("mousemove", (e) => {
+    setCursorX(e.pageX);
+    setCursorY(e.pageY);
+  });
   return (
     <div>
       <div className="bg-transparent">
@@ -55,10 +60,20 @@ const Home = () => {
                     A social media for learners
                   </p>
                   <div className="flex flex-col">
-                    <h1 className="font-grotest text-4xl font-bold text-white lg:mt-8 sm:text-6xl xl:text-8xl">
-                      Software{" "}
-                    </h1>
-                    <span className="typeAnimation text-[8vw] font-bold font-poppins leading-none lg:leading-[160px]">
+                    <div>
+                      <h1 className="software font-grotest text-4xl font-bold text-white lg:mt-8 sm:text-6xl xl:text-8xl">
+                        Software
+                      </h1>
+                      <div
+                        style={{
+                          left: cursorX + "px",
+                          top: cursorY + "px",
+                        }}
+                        className="cursor"
+                      ></div>
+                    </div>
+
+                    <span className="typeAnimation text-[7vw] font-bold font-poppins leading-none lg:leading-[160px]">
                       Developers
                     </span>
                   </div>
@@ -68,7 +83,13 @@ const Home = () => {
                   <SpotlightButton />
                 </div>
 
-                <p className="mt-5 text-gray-200">
+                <p
+                  style={{
+                    position: "relative",
+                    zIndex: 1, // Ensure the paragraph is on top of other elements to receive mouse events
+                  }}
+                  className="software mt-5 text-gray-200"
+                >
                   I am a developer specializing in 3D visuals, user interfaces,
                   and web applications, based in Los Angeles, America. With 5
                   years of experience as a React developer, I have refined my
@@ -81,7 +102,7 @@ const Home = () => {
                 <div>
                   <img
                     className=""
-                    src="https://cdn.rareblocks.xyz/collection/celebration/images/hero/1/hero-img.png"
+                    src="https://i.ibb.co/fdn1Y38/neon-5.png"
                     alt=""
                   />
                 </div>
