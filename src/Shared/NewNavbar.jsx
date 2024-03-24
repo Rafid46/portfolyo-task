@@ -34,19 +34,19 @@ const NewNavbar = () => {
               <motion.div
                 animate={{ WebkitMaskPosition: `${x}px ${y}px` }}
                 transition={{ type: "tween", ease: "backOut" }}
-                className="absolute maskStyle"
+                className=""
               >
                 <p className="text-3xl text-white ">
                   {" "}
                   <PiDotsNineBold className="" />
                 </p>
               </motion.div>
-              <div>
+              {/* <div>
                 <p className="text-3xl text-white ">
                   {" "}
                   <VscCircleLarge className="" />
                 </p>
-              </div>
+              </div> */}
             </div>
           </summary>
           <AnimatePresence>

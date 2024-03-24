@@ -1,6 +1,111 @@
+@import url("https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+/* card */
+.kard {
+  width: 190px;
+  height: 50px;
+  transition: all 0.2s;
+  position: relative;
+  cursor: pointer;
+}
+
+.card-inner {
+  width: inherit;
+  height: inherit;
+  background: rgba(255, 255, 255, 0.05);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(10px);
+  border-radius: 8px;
+}
+
+.kard:hover {
+  transform: scale(1.04) rotate(1deg);
+}
+
+.circle {
+  width: 100px;
+  height: 100px;
+  background: radial-gradient(#b0e633, #53ef7d);
+  border-radius: 50%;
+  position: absolute;
+  animation: move-up6 2s ease-in infinite alternate-reverse;
+}
+
+.circle:nth-child(1) {
+  top: -25px;
+  left: -25px;
+}
+
+.circle:nth-child(2) {
+  bottom: -25px;
+  right: -25px;
+  animation-name: move-down1;
+}
+
+@keyframes move-up6 {
+  to {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes move-down1 {
+  to {
+    transform: translateY(10px);
+  }
+}
+/* new button */
+.Btn {
+  width: 45px;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background-color: transparent;
+  position: relative;
+  /* overflow: hidden; */
+  border-radius: 7px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.svgContainer {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+  backdrop-filter: blur(0px);
+  letter-spacing: 0.8px;
+  border-radius: 10px;
+  transition: all 0.3s;
+  border: 1px solid rgba(156, 156, 156, 0.466);
+}
+
+.BG {
+  position: absolute;
+  content: "";
+  width: 100%;
+  height: 100%;
+  background: #181818;
+  z-index: -1;
+  border-radius: 10px;
+  pointer-events: none;
+  transition: all 0.3s;
+}
+
+.Btn:hover .BG {
+  transform: rotate(35deg);
+  transform-origin: bottom;
+}
+
+.Btn:hover .svgContainer {
+  background-color: rgba(156, 156, 156, 0.466);
+  backdrop-filter: blur(4px);
+}
 
 /* .maskStyle {
   position: absolute;
@@ -13,9 +118,9 @@
   z-index: 9999;
 } */
 /* cursor */
-* {
+/* * {
   cursor: none;
-}
+} */
 /* .cursor {
   background-color: #111;
   height: 32px;
@@ -26,7 +131,7 @@
   left: 0;
   pointer-events: none;
 } */
-.cursor {
+/* .cursor {
   width: 20px;
   height: 20px;
   background-color: #e8e8e8;
@@ -40,7 +145,7 @@
 }
 .software:hover + .cursor {
   transform: scale(5);
-}
+} */
 .hoverStyle:hover ~ .cursor {
   transform: scale(5);
 }
@@ -74,6 +179,11 @@
   -webkit-background-clip: text;
   background-position: 0 10;
   animation: back 20s linear infinite;
+}
+.typeAnimation2 {
+  color: transparent;
+  -webkit-text-stroke: 1px #f6fffc;
+  -webkit-background-clip: text;
 }
 @keyframes back {
   100% {

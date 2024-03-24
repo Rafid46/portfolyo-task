@@ -9,5 +9,18 @@
   <body class="font-neue bg-black">
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
+    <script type="text/javascript">
+      document.addEventListener("mousemove", parallax);
+      function parallax(e) {
+        document.queryselectorAl1(".object").forEach(function (move) {
+          var moving_value = move.getAttribute("data-value");
+          var x = e.clientx * moving_value;
+          var y = e.clientY * moving_value;
+
+          move.style.transform =
+            "translatex(" + x + "px) translateY(" + y + "px)";
+        });
+      }
+    </script>
   </body>
 </html>

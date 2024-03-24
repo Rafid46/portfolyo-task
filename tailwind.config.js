@@ -6,6 +6,7 @@ export default {
     extend: {
       fontFamily: {
         poppins: "'Poppins', sans-serif",
+        caveat: "'Caveat', cursive",
         brolimo: ["BrolimoRegular"],
         grotest: ["ArchivGroteskTrial-RegularTrial"],
         neue: ["NeueMontreal-Regular"],
