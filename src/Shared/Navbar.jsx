@@ -37,7 +37,7 @@ const Navbar = () => {
       <header className="">
         <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
           {/* <!-- lg+ --> */}
-          <nav className="flex items-center justify-between h-16 lg:h-20">
+          <nav className="flex items-center justify-between">
             <div className="flex-shrink-0">
               <a href="#" title="" className="flex">
                 <p className="text-3xl font-grotest font-bold">Portfolyo</p>

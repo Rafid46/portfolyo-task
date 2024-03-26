@@ -19,7 +19,7 @@ const TestNavbar = () => {
         transition={{ ease: "easeInOut", duration: 0.5 }}
         className="bg-neutral-950 p-4 md:p-8"
       >
-        <div className="mx-auto max-w-5xl">
+        <div className="mx-auto max-w-screen-xl">
           <Link heading="Home" subheading="Let's go home" href="/" />
           <Link
             heading="About"
@@ -116,14 +116,14 @@ const Link = ({ heading, imgSrc, subheading, href }) => {
                 whileHover: { x: 16 },
               }}
               transition={{ type: "spring" }}
-              className="inline-block"
+              className="-leading-[10px]"
               key={i}
             >
               {l}
             </motion.span>
           ))}
         </motion.span>
-        <span className="relative z-10 mt-2 block text-base text-neutral-500 transition-colors duration-500 group-hover:text-neutral-50">
+        <span className="relative z-10 mt-2 text-base text-neutral-500 transition-colors duration-500 group-hover:text-neutral-50">
           {subheading}
         </span>
       </div>

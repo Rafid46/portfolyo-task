@@ -26,7 +26,7 @@ const NewNavbar = () => {
   });
   const { x, y } = mousePosition;
   return (
-    <div className="navbar bg-transparent">
+    <div className="navbar w-full bg-transparent">
       <div className="navbar-start">
         <details className="dropdown">
           <summary className="m-1 ml-5 cursor-pointer" onClick={toggleMenu}>
@@ -55,7 +55,7 @@ const NewNavbar = () => {
                 initial={{ width: 0 }}
                 animate={{ width: "100vw" }}
                 transition={{ ease: [0.76, 0, 0.24, 1], duration: 2 }}
-                className="shadow dropdown-content z-[9999] w-[500px] lg:w-[1600px] mx-auto -ml-2"
+                className="shadow dropdown-content z-[9999] mx-auto -ml-2"
               >
                 <TestNavbar />
               </motion.ul>

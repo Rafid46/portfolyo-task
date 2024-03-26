@@ -1,7 +1,9 @@
 import { motion } from "framer-motion";
 import { useEffect, useRef } from "react";
 import { useState } from "react";
+import Skills from "./Skills";
 // import banner from "https://i.ibb.co/fdn1Y38/neon-5.png";
+import Services from "../Home/Services";
 const Home = () => {
   const [data, setData] = useState({});
   const SpotlightButton = () => {
@@ -32,7 +34,7 @@ const Home = () => {
       <motion.button
         whileTap={{ scale: 0.985 }}
         ref={btnRef}
-        className="relative w-[200px] lg:w-[250px] overflow-hidden rounded-md border-[1px] px-4 py-3 text-sm lg:text-lg font-medium text-white border-gray-400"
+        className="relative w-[200px] lg:w-[200px] overflow-hidden rounded-md border-[1px] px-3 py-2 text-sm lg:text-lg font-medium text-white border-gray-400"
       >
         <span className="text-base font-neue uppercase pointer-events-none relative z-10 mix-blend-difference">
           Contact
@@ -115,7 +117,7 @@ const Home = () => {
                       <h1 className="font-grotest text-8xl font-thin text-white lg:mt-8">
                         {titleParts[0]}
                       </h1>
-                      <span className="z-50 typeAnimation text-8xl font-semibold font-poppins tracking-[2px]">
+                      <span className="z-10 typeAnimation text-8xl font-semibold font-poppins tracking-[2px]">
                         {titleParts[1]}
                       </span>
                       {/* <div
@@ -230,8 +232,18 @@ const Home = () => {
               </div>
             </div>
           </div>
-          <hr className="w-4/5 mx-auto border-[1px] border-gray-400 my-32" />
+          <hr className="w-4/5 mx-auto border-[0.1px] border-gray-400 mt-32 mb-10" />
         </section>
+      </div>
+      {/* skills */}
+      <div className="max-w-screen-xl mx-auto">
+        <p className="text-6xl font-brolimo font-semibold text-white mb-7">
+          Skills<span className="blinking">.</span>{" "}
+        </p>
+        <Skills data={data}></Skills>
+      </div>
+      <div className="my-20">
+        <Services data={data}></Services>
       </div>
     </div>
   );
