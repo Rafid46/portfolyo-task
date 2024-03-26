@@ -54,7 +54,7 @@ const Link = ({ data }) => {
     y.set(yPct);
   };
   return (
-    <>
+    <div className="">
       <p className="text-white uppercase font-poppins text-6xl font-thin text-end">
         My services
       </p>
@@ -65,7 +65,7 @@ const Link = ({ data }) => {
             onMouseMove={handleMouseMove}
             initial="initial"
             whileHover="whileHover"
-            className="max-w-screen-xl mx-10 group relative flex items-center justify-between border-b-2 border-neutral-700 py-4 transition-colors duration-500 hover:border-neutral-50"
+            className="py-10 max-w-screen-xl mx-10 group relative flex items-center justify-between border-b-2 border-neutral-700 transition-colors duration-500 hover:border-neutral-50"
           >
             <div>
               <motion.div
@@ -78,7 +78,7 @@ const Link = ({ data }) => {
                   staggerChildren: 0.075,
                   delayChildren: 0.25,
                 }}
-                className="mb-5 relative z-10 block text-4xl font-semibold font-neue text-neutral-500 transition-colors duration-500 group-hover:text-neutral-50 md:text-6xl"
+                className="mb-5 relative z-10 block text-4xl font-medium font-neue text-neutral-500 transition-colors duration-500 group-hover:text-neutral-50 md:text-6xl"
               >
                 <motion.span
                   variants={{
@@ -86,7 +86,7 @@ const Link = ({ data }) => {
                     whileHover: { x: 16 },
                   }}
                   transition={{ type: "spring" }}
-                  className="-leading-[10px]"
+                  className="-leading-[10px] font-poppins"
                 >
                   {service?.name}
                 </motion.span>
@@ -131,6 +131,6 @@ const Link = ({ data }) => {
           </motion.div>
         </div>
       ))}
-    </>
+    </div>
   );
 };

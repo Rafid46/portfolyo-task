@@ -2,8 +2,10 @@ import { motion } from "framer-motion";
 import { useEffect, useRef } from "react";
 import { useState } from "react";
 import Skills from "./Skills";
+import doodle from "../../assets/doodle.png";
 // import banner from "https://i.ibb.co/fdn1Y38/neon-5.png";
 import Services from "../Home/Services";
+import Projects from "./Projects";
 const Home = () => {
   const [data, setData] = useState({});
   const SpotlightButton = () => {
@@ -242,8 +244,26 @@ const Home = () => {
         </p>
         <Skills data={data}></Skills>
       </div>
-      <div className="my-20">
-        <Services data={data}></Services>
+      {/* services */}
+      <div className="">
+        <div
+          data-scroll
+          data-scroll-speed="-.5"
+          className="border-[0.5px] border-zinc-700 rounded-xl  mx-5 py-10 mt-[400px]"
+        >
+          <Services data={data}></Services>
+        </div>
+      </div>
+      <div
+        className="mt-[400px]"
+        style={{
+          backgroundImage: `url(${doodle})`,
+          backgroundPosition: "center center",
+          backgroundSize: "cover",
+          backgroundRepeat: "no-repeat",
+        }}
+      >
+        <Projects data={data}></Projects>
       </div>
     </div>
   );

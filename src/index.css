@@ -3,6 +3,59 @@
 @tailwind components;
 @tailwind utilities;
 
+/* head button */
+.headbutton {
+  padding: 15px 20px;
+  background: transparent;
+  border: none;
+  position: relative;
+  z-index: 1;
+}
+
+.headbutton::after,
+.headbutton::before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  z-index: -99999;
+  transition: all 0.4s;
+}
+
+.headbutton::before {
+  transform: translate(0%, 0%);
+  width: 100%;
+  height: 100%;
+  background: #28282d;
+  border-radius: 10px;
+}
+
+.headbutton::after {
+  transform: translate(10px, 10px);
+  width: 35px;
+  height: 35px;
+  background: #ffffff15;
+  backdrop-filter: blur(5px);
+  border-radius: 50px;
+}
+
+.headbutton:hover::before {
+  transform: translate(5%, 20%);
+  width: 110%;
+  height: 110%;
+}
+
+.headbutton:hover::after {
+  border-radius: 10px;
+  transform: translate(0, 0);
+  width: 100%;
+  height: 100%;
+}
+
+.headbutton:active::after {
+  transition: 0s;
+  transform: translate(0, 5%);
+}
 .blinking {
   animation: blink 1s infinite; /* Adjust duration as needed */
 }
@@ -174,6 +227,10 @@
 @font-face {
   font-family: "FoundersGrotesk-Semibold";
   src: url("./fonts/FoundersGrotesk-Semibold.ttf");
+}
+@font-face {
+  font-family: "Diastema-regular";
+  src: url("./fonts/Diastema\ Regular.ttf");
 }
 
 /* type animation */
