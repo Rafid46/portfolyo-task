@@ -14,6 +14,7 @@ const Services = ({ data }) => {
   return (
     <AnimatePresence>
       <motion.section
+        id="services"
         initial={{ scale: 0, width: 0 }}
         animate={{ scale: 1, width: "100%" }} // Changed from "100vw" to "100%"
         exit={{ scale: 0, width: "100%" }} // Changed from "100vw" to "100%"

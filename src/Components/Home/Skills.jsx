@@ -16,6 +16,7 @@ const Skill = ({ data, skill, index }) => {
 
   return (
     <motion.div
+      id="skills"
       ref={ref}
       initial={{ opacity: 0, x: -50 }}
       animate={controls}
@@ -30,7 +31,7 @@ const Skill = ({ data, skill, index }) => {
             : skill?.name === "Figma"
             ? "text-5xl font-poppins font-thin text-pink-500"
             : skill?.name === "C++"
-            ? "text-5xl font-poppins font-thin text-blue-900"
+            ? "text-5xl font-poppins font-thin text-blue-500"
             : skill?.name === "TypeScript"
             ? "text-5xl font-poppins font-thin text-blue-400"
             : skill?.name === "Docker"

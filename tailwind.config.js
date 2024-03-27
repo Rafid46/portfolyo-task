@@ -11,7 +11,7 @@ export default {
         grotest: ["ArchivGroteskTrial-RegularTrial"],
         neue: ["NeueMontreal-Regular"],
         founderGrotest: ["FoundersGrotesk-Semibold"],
-        Diastema: ["Diastema-regular"],
+        diastema: ["Diastema Regular"],
       },
     },
   },

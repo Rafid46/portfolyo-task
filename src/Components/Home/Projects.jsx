@@ -4,7 +4,7 @@ import { motion, useTransform, useScroll } from "framer-motion";
 import { useRef } from "react";
 const Projects = ({ data }) => {
   return (
-    <div className="mx-5">
+    <div id="projects" className="mx-5">
       <button className="text-gray-200 font-brolimo  font-thin tracking-[2px] text-6xl headbutton">
         Projects
       </button>

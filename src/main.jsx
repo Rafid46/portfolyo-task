@@ -5,6 +5,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import MainLayout from "./layout/MainLayout";
 import Home from "./Components/Home/Home";
 import TestNavbar from "../src/Shared/TestNavbar";
+import Skills from "./Components/Home/Skills";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -17,6 +18,10 @@ const router = createBrowserRouter([
       {
         path: "/test",
         element: <TestNavbar></TestNavbar>,
+      },
+      {
+        path: "/skills",
+        element: <Skills></Skills>,
       },
       // {
       //   path: "/navbar",

@@ -167,9 +167,8 @@ const Home = () => {
                     />
                   )}
                 </div>
-                <div className="flex items-center justify-center">
-                  <div>
-                    {" "}
+                <div className="flex items-center justify-center z-50">
+                  <div className="">
                     <a className="fancy myCustom">
                       <span className="top-key"></span>
                       <span className="text uppercase text-gray-400 font-neue tracking-[7px]">
@@ -179,7 +178,7 @@ const Home = () => {
                       <span className="bottom-key-2"></span>
                     </a>
                   </div>
-                  <div>
+                  <div className="z-50">
                     <button className="Btn mb-3">
                       <span className="svgContainer">
                         <svg fill="white" viewBox="0 0 496 512" height="1.6em">
