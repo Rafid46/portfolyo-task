@@ -37,7 +37,7 @@ const NewNavbar = () => {
               <motion.div className="">
                 <p className="text-5xl text-white ">
                   {" "}
-                  <PiDotsNineBold className="" />
+                  <PiDotsNineBold className="interactable" />
                 </p>
               </motion.div>
             </label>
@@ -52,7 +52,7 @@ const NewNavbar = () => {
               {/* Sidebar content here */}
 
               <div className="gap-5 h-screen justify-center uppercase flex items-center flex-col text-5xl font-poppins font-normal text-zinc-700">
-                <div className="text-start font-caveat">
+                <div className="interactable text-start font-caveat">
                   <p className="text-3xl font-semibold text-teal-400">
                     JOHN DOE
                   </p>
@@ -61,7 +61,7 @@ const NewNavbar = () => {
                   <a>Home</a>
                 </li>
                 <Link
-                  to="skills"
+                  to="about"
                   spy={true}
                   smooth={true}
                   duration={500}
@@ -109,13 +109,11 @@ const NewNavbar = () => {
           </div>
         </div>
       </div>
-      <div className="navbar-end">
-        <button className="btn btn-ghost btn-circle">
-          <div className="indicator">
-            <VscCircleLarge className="hoverStyle text-3xl text-white" />
-            {/* <span className="badge badge-xs badge-primary indicator-item"></span> */}
-          </div>
-        </button>
+      <div className="navbar-end mr-5">
+        <div className="">
+          <p className="hoverStyle text-xl text-[#15F5BA]">John Doe</p>
+          {/* <span className="badge badge-xs badge-primary indicator-item"></span> */}
+        </div>
       </div>
     </div>
   );

@@ -3,6 +3,56 @@
 @tailwind components;
 @tailwind utilities;
 
+/* new cursor */
+
+#trailer {
+  height: 40px;
+  width: 40px;
+  background-color: white;
+  border-radius: 20px;
+  position: fixed;
+  left: 0px;
+  top: 0px;
+  z-index: 10000;
+  pointer-events: none;
+  transition: opacity 500ms ease;
+  mix-blend-mode: difference;
+}
+#trailer:hover {
+  transform: scale(5);
+}
+/* .cursor {
+  width: 20px;
+  height: 20px;
+  background-color: #e8e8e8;
+  border: none;
+  position: fixed;
+  border-radius: 50%;
+  pointer-events: none;
+  mix-blend-mode: difference;
+  z-index: 9999;
+  transition: transform 0.3s ease;
+}
+.software:hover + .cursor {
+  transform: scale(5);
+} */
+/* spin */
+@keyframes customSpin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-custom-spin {
+  animation-name: customSpin;
+  animation-duration: 10s; /* Adjust duration as needed */
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
 /* head button */
 .headbutton {
   padding: 15px 20px;
@@ -176,9 +226,7 @@
   z-index: 9999;
 } */
 /* cursor */
-/* * {
-  cursor: none;
-} */
+
 /* .cursor {
   background-color: #111;
   height: 32px;
@@ -204,9 +252,7 @@
 .software:hover + .cursor {
   transform: scale(5);
 } */
-.hoverStyle:hover ~ .cursor {
-  transform: scale(5);
-}
+
 /* .softwareNone:hover ~ .cursor {
   cursor: pointer;
   background-color: transparent;

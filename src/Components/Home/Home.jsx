@@ -4,10 +4,17 @@ import { useState } from "react";
 import Skills from "./Skills";
 import doodle from "../../assets/doodle.png";
 // import banner from "https://i.ibb.co/fdn1Y38/neon-5.png";
+import { IoIosArrowUp } from "react-icons/io";
 import Services from "../Home/Services";
 import Projects from "./Projects";
+import About from "./About";
+import Contact from "./Contact";
+import png from "../../assets/neon_5.png";
+// import Testimonials from "./Testimonials";
 const Home = () => {
   const [data, setData] = useState({});
+  const [topButton, setTopButton] = useState(false);
+  // const [isOpen, setIsOpen] = useState(false);
   const SpotlightButton = () => {
     const btnRef = useRef(null);
     const spanRef = useRef(null);
@@ -89,13 +96,36 @@ const Home = () => {
       document.removeEventListener("mousemove", parallax);
     };
   }, []);
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 100) {
+        setTopButton(true);
+      } else {
+        setTopButton(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  const scrollUp = () => {
+    const scrollStep = window.scrollY / 30; // Adjust the divisor for slower or faster scroll
+    const scrollInterval = setInterval(() => {
+      if (window.scrollY === 0) clearInterval(scrollInterval);
+      window.scrollBy(0, -scrollStep);
+    }, 15); // Adjust the interval for smoother or faster animation
+  };
 
   return (
     <div>
       <div
         className="bg-cover bg-center"
         style={{
-          backgroundImage: `url("https://i.ibb.co/fdn1Y38/neon-5.png")`,
+          backgroundImage: `url(${png})`,
           backgroundSize: "500px 500px",
           backgroundRepeat: "no-repeat",
           backgroundPosition: "right 300px top 200px",
@@ -144,7 +174,7 @@ const Home = () => {
                         position: "relative",
                         zIndex: 1, // Ensure the paragraph is on top of other elements to receive mouse events
                       }}
-                      className="software mt-5 font-neue text-gray-400 text-sm"
+                      className="interactable mt-5 font-neue text-gray-100 text-sm"
                     >
                       {data?.user?.about?.description}
                     </p>
@@ -253,6 +283,7 @@ const Home = () => {
           <Services data={data}></Services>
         </div>
       </div>
+      {/* projects */}
       <div
         className="mt-[400px]"
         style={{
@@ -264,6 +295,23 @@ const Home = () => {
       >
         <Projects data={data}></Projects>
       </div>
+      <div>
+        <About data={data}></About>
+      </div>
+      <div className="mt-20">
+        <Contact></Contact>
+      </div>
+      {/* <div>
+        <Testimonials data={data}></Testimonials>
+      </div> */}
+      {topButton && (
+        <button
+          className="fixed bottom-[50px] right-[50px] lg:bottom-[50px] lg:right-[50px] h-[50px] w-[50px] lg:h-[50px] lg:w-[50px] text-4xl text-green-400 bg-zinc-700 rounded-full flex items-center justify-center"
+          onClick={scrollUp}
+        >
+          <IoIosArrowUp />
+        </button>
+      )}
     </div>
   );
 };

@@ -6,6 +6,7 @@ import MainLayout from "./layout/MainLayout";
 import Home from "./Components/Home/Home";
 import TestNavbar from "../src/Shared/TestNavbar";
 import Skills from "./Components/Home/Skills";
+// import Testimonials from "./Components/Home/Testimonials";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -23,6 +24,14 @@ const router = createBrowserRouter([
         path: "/skills",
         element: <Skills></Skills>,
       },
+      // {
+      //   path: "/testimonial/:_id",
+      //   element: <Testimonials></Testimonials>,
+      //   loader: () =>
+      //     fetch(
+      //       "https://portfolio-backend-30mp.onrender.com/api/v1/get/user/65b3a22c01d900e96c4219ae"
+      //     ),
+      // },
       // {
       //   path: "/navbar",
       //   element: <Navbar></Navbar>,
