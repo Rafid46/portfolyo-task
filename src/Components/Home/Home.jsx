@@ -14,6 +14,7 @@ import png from "../../assets/neon_5.png";
 const Home = () => {
   const [data, setData] = useState({});
   const [topButton, setTopButton] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   // const [isOpen, setIsOpen] = useState(false);
   const SpotlightButton = () => {
     const btnRef = useRef(null);
@@ -131,7 +132,7 @@ const Home = () => {
           backgroundPosition: "right 300px top 200px",
         }}
       >
-        <section className="bg-transparent bg-opacity-30 py-10 sm:py-16 lg:py-24">
+        <section className="bg-transparent bg-opacity-30 py-10 sm:py-16 lg:py-24 mx-5 lg:mx-0">
           <div className="mx-auto max-w-[1400px] sm:px-6 lg:px-8">
             <div className="grid items-center grid-cols-1 gap-12 lg:grid-cols-2">
               <div className="">
@@ -146,10 +147,10 @@ const Home = () => {
                   )}
                   <div className="">
                     <div className="flex flex-col">
-                      <h1 className="font-grotest text-8xl font-thin text-white lg:mt-8">
+                      <h1 className="font-grotest text-4xl lg:text-8xl font-thin text-white lg:mt-8">
                         {titleParts[0]}
                       </h1>
-                      <span className="z-10 typeAnimation text-8xl font-semibold font-poppins tracking-[2px]">
+                      <span className="z-10 typeAnimation text-4xl  lg:text-8xl font-semibold font-poppins tracking-[2px]">
                         {titleParts[1]}
                       </span>
                       {/* <div
@@ -182,7 +183,7 @@ const Home = () => {
                 </div>
               </div>
 
-              <div className="flex items-center bg-cover bg-center">
+              <div className="flex flex-col lg:flex-row items-center bg-cover bg-center">
                 <div>
                   {data && (
                     <img
@@ -191,7 +192,7 @@ const Home = () => {
                       }}
                       data-value="-0.1"
                       loading="lazy"
-                      className="object object-cover object-center rounded-xl border-[1px] border-gray-500 p-2"
+                      className="mt-32 lg:mt-0 mx-auto lg:mx-0 mb-20 lg:mb-0 object object-cover object-center rounded-xl border-[1px] border-gray-500 p-2"
                       src={data?.user?.about?.avatar?.url}
                       alt=""
                     />
@@ -268,7 +269,7 @@ const Home = () => {
       </div>
       {/* skills */}
       <div className="max-w-screen-xl mx-auto">
-        <p className="text-6xl font-brolimo font-semibold text-white mb-7">
+        <p className="ml-5 lg:ml-0 text-6xl font-brolimo font-semibold text-white mb-7">
           Skills<span className="blinking">.</span>{" "}
         </p>
         <Skills data={data}></Skills>

@@ -2,7 +2,7 @@ const Contact = () => {
   return (
     <div>
       <section
-        className="max-w-xl mx-auto lg:max-w-3xl mb-20 lg:mb-0"
+        className="max-w-xl mx-auto lg:max-w-3xl mb-0 lg:mb-0"
         id="contact"
       >
         <div className="flex items-center justify-center">
@@ -64,7 +64,7 @@ const Contact = () => {
                     placeholder="your message here...."
                   ></textarea>
                 </div>
-                <div className="col-span-6 sm:flex sm:items-center sm:gap-4">
+                <div className="mb-20 lg:mb-0 col-span-6 sm:flex sm:items-center sm:gap-4">
                   <button
                     type="submit"
                     value="Send"

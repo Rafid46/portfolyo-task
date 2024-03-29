@@ -56,7 +56,7 @@ const Link = ({ data }) => {
   };
   return (
     <div className="">
-      <p className="text-white uppercase font-poppins text-6xl font-thin text-end">
+      <p className="text-white uppercase font-poppins text-4xl mr-10 lg:mr-0 lg:text-6xl font-thin text-end">
         My services
       </p>
       {data?.user?.services?.map((service) => (

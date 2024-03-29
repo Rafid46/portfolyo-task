@@ -58,7 +58,7 @@ const NewNavbar = () => {
                   </p>
                 </div>
                 <li>
-                  <a>Home</a>
+                  <a className="text-zinc-900">Home</a>
                 </li>
                 <Link
                   to="about"
@@ -68,7 +68,7 @@ const NewNavbar = () => {
                   offset={50}
                 >
                   <li>
-                    <a>About</a>
+                    <a className="text-zinc-900">About</a>
                   </li>
                 </Link>
                 <Link
@@ -79,7 +79,7 @@ const NewNavbar = () => {
                   offset={50}
                 >
                   <li>
-                    <a>Services</a>
+                    <a className="text-zinc-900">Services</a>
                   </li>
                 </Link>
                 <Link
@@ -90,7 +90,7 @@ const NewNavbar = () => {
                   offset={50}
                 >
                   <li>
-                    <a>Projects</a>
+                    <a className="text-zinc-900">Projects</a>
                   </li>
                 </Link>
                 <Link
@@ -101,7 +101,7 @@ const NewNavbar = () => {
                   offset={50}
                 >
                   <li>
-                    <a>Contact</a>
+                    <a className="text-zinc-900">Contact</a>
                   </li>
                 </Link>
               </div>

@@ -20,7 +20,7 @@ const Skill = ({ data, skill, index }) => {
       ref={ref}
       initial={{ opacity: 0, x: -50 }}
       animate={controls}
-      className="flex items-center mr-4 mb-4"
+      className="flex items-center mr-4 mb-4 mx-5 lg:mx-0"
     >
       <p
         className={
