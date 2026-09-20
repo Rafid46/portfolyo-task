@@ -18,7 +18,7 @@ const Contact = () => {
                 <div className="col-span-3">
                   <label
                     htmlFor="Name"
-                    className="block text-sm font-medium text-gray-200 mb-1"
+                    className="block text-sm font-medium text-gray-500 mb-1"
                   >
                     {" "}
                     Name{" "}
@@ -28,13 +28,13 @@ const Contact = () => {
                     type="text"
                     name="user_name"
                     placeholder="name..."
-                    className="w-full px-5 py-2 rounded-md border-gray-200 bg-gray-100 text-sm text-gray-700 shadow-sm"
+                    className="w-full px-5 py-2 rounded-md bg-gray-200 border-gray-200  text-sm text-gray-700 shadow-sm"
                   />
                 </div>
                 <div className="col-span-6">
                   <label
                     htmlFor="Email"
-                    className="block text-sm font-medium text-gray-200 mb-1"
+                    className="block text-sm font-medium text-gray-500 mb-1"
                   >
                     {" "}
                     Email{" "}
@@ -45,13 +45,13 @@ const Contact = () => {
                     id="Email"
                     name="user_email"
                     placeholder="email..."
-                    className="w-1/2 lg:w-full px-5 py-2  rounded-md border-gray-200 bg-gray-100 text-sm text-gray-700 shadow-sm"
+                    className="w-1/2 lg:w-full px-5 py-2 bg-gray-200  rounded-md border-gray-200  text-sm text-gray-700 shadow-sm"
                   />
                 </div>
                 <div>
                   <label
                     htmlFor="OrderNotes"
-                    className="block text-sm font-medium text-gray-200"
+                    className="block text-sm font-medium text-gray-500"
                   >
                     {" "}
                     Subject{" "}

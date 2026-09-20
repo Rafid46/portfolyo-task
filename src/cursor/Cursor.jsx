@@ -1,42 +1,27 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import React, { useRef, useEffect } from "react";
+import GlowCursor from "./GlowCursor";
 
 const Cursor = () => {
-  const trailerRef = useRef(null);
-
-  const animateTrailer = (e, interacting) => {
-    const trailer = trailerRef.current;
-    const x = e.clientX - trailer.offsetWidth / 2;
-    const y = e.clientY - trailer.offsetHeight / 2;
-
-    const keyframes = {
-      transform: `translate(${x}px, ${y}px) scale(${interacting ? 5 : 1})`,
-    };
-
-    trailer.animate(keyframes, {
-      duration: 800,
-      fill: "forwards",
-    });
-  };
-
-  useEffect(() => {
-    const handleMouseMove = (e) => {
-      const interactable = e.target.closest(".interactable");
-      const interacting = interactable !== null;
-      animateTrailer(e, interacting);
-    };
-
-    window.addEventListener("mousemove", handleMouseMove);
-
-    return () => {
-      window.removeEventListener("mousemove", handleMouseMove);
-    };
-  }, [animateTrailer]);
   return (
-    <div>
-      <div ref={trailerRef} id="trailer">
-        <i id="trailer-icon"></i>
-      </div>
+    <div className="hidden lg:block fixed inset-0 pointer-events-none z-50 w-screen h-screen">
+      <GlowCursor
+        color="#67E8F9"
+        secondaryColor="#A78BFA"
+        trailLength={14}
+        trailWidth={8}
+        trailTaper={0.8}
+        followSpeed={0.5}
+        glowIntensity={1.9}
+        glowSpread={1.2}
+        hotspot={0.65}
+        brightness={1.25}
+        opacity={1}
+        pulseSpeed={1.6}
+        noiseStrength={0.035}
+        idleFade
+        idleTimeout={700}
+        fadeDuration={100}
+        blendMode="screen"
+      />
     </div>
   );
 };

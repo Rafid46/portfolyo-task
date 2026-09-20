@@ -12,8 +12,11 @@ export default {
         neue: ["NeueMontreal-Regular"],
         founderGrotest: ["FoundersGrotesk-Semibold"],
         diastema: ["Diastema Regular"],
+        contrail: ["'Contrail One'", "sans-serif"],
+        vina: ["'Vina Sans'", "sans-serif"],
+        climate: ["'Climate Crisis'", "sans-serif"],
       },
     },
   },
-  plugins: [require("daisyui")],
+  plugins: [],
 };

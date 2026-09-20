@@ -1,112 +1,45 @@
-import { motion } from "framer-motion";
-import { useEffect, useRef } from "react";
-import { useState } from "react";
-import Skills from "./Skills";
-import doodle from "../../assets/doodle.png";
-// import banner from "https://i.ibb.co/fdn1Y38/neon-5.png";
+import { useEffect, useState } from "react";
 import { IoIosArrowUp } from "react-icons/io";
-import Services from "../Home/Services";
+import { FaMapMarkerAlt, FaArrowRight, FaCopy, FaCheck } from "react-icons/fa";
+
 import Projects from "./Projects";
-import About from "./About";
-import Contact from "./Contact";
-import png from "../../assets/neon_5.png";
-// import Testimonials from "./Testimonials";
+import Mascot from "../Mascot/Mascot";
+import Educations from "../Educations";
+import NewSkill from "./NewSkill";
+import WebThreads from "../WebThreads";
+import ParticleText from "./ParticleText";
+import StrokeText from "./StrokeText";
+import NewNavbar from "../../Shared/NewNavbar";
+import Ticker from "./Ticker";
+import SpecialFooter from "./SpecialFooter";
+
 const Home = () => {
-  const [data, setData] = useState({});
   const [topButton, setTopButton] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
-  // const [isOpen, setIsOpen] = useState(false);
-  const SpotlightButton = () => {
-    const btnRef = useRef(null);
-    const spanRef = useRef(null);
+  const [copied, setCopied] = useState(false);
+  const [isMobile, setIsMobile] = useState(() =>
+    typeof window !== "undefined" ? window.innerWidth < 768 : false,
+  );
 
-    useEffect(() => {
-      const handleMouseMove = (e) => {
-        const { width } = e.target.getBoundingClientRect();
-        const offset = e.offsetX;
-        const left = `${(offset / width) * 100}%`;
-
-        spanRef.current.animate({ left }, { duration: 250, fill: "forwards" });
-      };
-
-      const handleMouseLeave = () => {
-        spanRef.current.animate(
-          { left: "50%" },
-          { duration: 100, fill: "forwards" }
-        );
-      };
-
-      btnRef.current.addEventListener("mousemove", handleMouseMove);
-      btnRef.current.addEventListener("mouseleave", handleMouseLeave);
-    }, []);
-
-    return (
-      <motion.button
-        whileTap={{ scale: 0.985 }}
-        ref={btnRef}
-        className="relative w-[200px] lg:w-[200px] overflow-hidden rounded-md border-[1px] px-3 py-2 text-sm lg:text-lg font-medium text-white border-gray-400"
-      >
-        <span className="text-base font-neue uppercase pointer-events-none relative z-10 mix-blend-difference">
-          Contact
-        </span>
-        <span
-          ref={spanRef}
-          className="pointer-events-none absolute left-[50%] top-[50%] h-32 w-32 -translate-x-[50%] -translate-y-[50%] rounded-full bg-slate-100"
-        />
-      </motion.button>
-    );
-  };
-  // const [cursorX, setCursorX] = useState();
-  // const [cursorY, setCursorY] = useState();
-  // window.addEventListener("mousemove", (e) => {
-  //   setCursorX(e.pageX);
-  //   setCursorY(e.pageY);
-  // });
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch(
-          "https://portfolio-backend-30mp.onrender.com/api/v1/get/user/65b3a22c01d900e96c4219ae"
-        );
-        const jsonData = await response.json();
-        setData(jsonData);
-      } catch (error) {
-        console.error("error fetching data");
-      }
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
     };
-    fetchData();
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
   }, []);
-  const title = data?.user?.about?.title;
-  const titleParts = title ? title.split(" ") : " ";
-  console.log(titleParts);
-  useEffect(() => {
-    const parallax = (e) => {
-      document.querySelectorAll(".object").forEach(function (move) {
-        var moving_value = move.getAttribute("data-value");
-        var x = e.clientX * moving_value;
-        var y = e.clientY * moving_value;
 
-        move.style.transform =
-          "translateX(" + x + "px) translateY(" + y + "px)";
-      });
-    };
-
-    document.addEventListener("mousemove", parallax);
-
-    return () => {
-      document.removeEventListener("mousemove", parallax);
-    };
-  }, []);
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 100) {
+      if (window.scrollY > 150) {
         setTopButton(true);
       } else {
         setTopButton(false);
       }
     };
 
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll();
 
     return () => {
       window.removeEventListener("scroll", handleScroll);
@@ -114,201 +47,367 @@ const Home = () => {
   }, []);
 
   const scrollUp = () => {
-    const scrollStep = window.scrollY / 30; // Adjust the divisor for slower or faster scroll
-    const scrollInterval = setInterval(() => {
-      if (window.scrollY === 0) clearInterval(scrollInterval);
-      window.scrollBy(0, -scrollStep);
-    }, 15); // Adjust the interval for smoother or faster animation
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const handleCopyEmail = async () => {
+    try {
+      await navigator.clipboard.writeText("mostafarafid45@gmail.com");
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    }
   };
 
   return (
-    <div>
-      <div
-        className="bg-cover bg-center"
-        style={{
-          backgroundImage: `url(${png})`,
-          backgroundSize: "500px 500px",
-          backgroundRepeat: "no-repeat",
-          backgroundPosition: "right 300px top 200px",
-        }}
-      >
-        <section className="bg-transparent bg-opacity-30 py-10 sm:py-16 lg:py-24 mx-5 lg:mx-0">
-          <div className="mx-auto max-w-[1400px] sm:px-6 lg:px-8">
-            <div className="grid items-center grid-cols-1 gap-12 lg:grid-cols-2">
-              <div className="">
-                <div>
-                  <p className="text-3xl font-caveat font-semibold tracking-wider text-white">
-                    Hello, i am
-                  </p>
-                  {data && (
-                    <p className="typeAnimation2 text-4xl font-semibold font-poppins tracking-wider text-amber-50 uppercase">
-                      {data?.user?.about?.name}
+    <div className="w-full min-h-screen bg-black text-white relative selection:bg-teal-400 selection:text-black">
+      <div className="fixed top-0 left-0 right-0 z-50">
+        <NewNavbar />
+      </div>
+
+      <main>
+        <section
+          id="home"
+          aria-label="Hero"
+          className="bg-cover bg-center relative min-h-screen lg:min-h-[880px] flex flex-col justify-center items-center pt-24 pb-14 overflow-hidden"
+        >
+          <div
+            style={{
+              width: "100%",
+              height: "100%",
+              position: "absolute",
+              top: 0,
+              left: 0,
+              zIndex: 0,
+              maskImage:
+                "linear-gradient(to bottom, black 70%, transparent 100%)",
+              WebkitMaskImage:
+                "linear-gradient(to bottom, black 70%, transparent 100%)",
+            }}
+          >
+            <WebThreads
+              color1="#0082ff"
+              color2="#c800ff"
+              color3="#FFFFFF"
+              speed={0.2}
+              threadCount={isMobile ? 4 : 5}
+              frequency={isMobile ? 2.8 : 6.5}
+              spread={isMobile ? 0.12 : 0.2}
+              taper={0.65}
+              position={isMobile ? 0.5 : 0.47}
+              fanMode={isMobile ? "center" : "right"}
+              glow={0.035}
+              falloff={0.6}
+              thickness={0.95}
+              brightness={0.7}
+              opacity={1}
+              mirror={true}
+              shimmer={false}
+              grain={false}
+              grainIntensity={0.05}
+              mouseInteraction={true}
+              mouseStrength={0.25}
+              backgroundColor="#000000"
+            />
+          </div>
+
+          <div className="relative z-10 w-full flex flex-col items-center justify-center px-4 sm:px-8 text-center max-w-6xl mx-auto">
+            <div className="inline-flex flex-wrap items-center justify-center gap-2 sm:gap-2.5 px-4 py-1.5 rounded-full bg-zinc-900/85 border border-zinc-700/60 backdrop-blur-md text-xs sm:text-sm font-neue text-zinc-300 mb-4 sm:mb-6 shadow-lg shadow-black/40">
+              <span className="flex items-center gap-1.5">
+                <FaMapMarkerAlt
+                  className="text-teal-400 text-xs shrink-0"
+                  aria-hidden="true"
+                />
+                <span>Dhaka, Bangladesh</span>
+              </span>
+              <span className="w-1.5 h-1.5 rounded-full bg-teal-400" />
+              <span className="text-teal-400 font-medium">
+                Frontend Developer
+              </span>
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+              <span className="text-emerald-400 font-medium flex items-center gap-1">
+                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                Available for Work
+              </span>
+            </div>
+
+            <div className="w-full h-[80px] sm:h-[130px] lg:h-[160px] -mb-2 sm:-mb-8 lg:-mb-12 relative z-10">
+              <ParticleText
+                text="web"
+                particleSize={2.2}
+                density={4}
+                color="#f8fafc"
+                highlightColor="#8b5cf6"
+                scatter={190}
+                gatherDuration={1600}
+                stagger={420}
+                pointerRepel={42}
+                repelRadius={120}
+                idleDrift={0.8}
+                trigger="mount"
+                fontSize="clamp(3rem, 10vw, 6.5rem)"
+                fontWeight={800}
+                fontFamily="inherit"
+                glow
+              />
+            </div>
+
+            <div className="w-full max-w-6xl mx-auto flex items-center justify-center">
+              <StrokeText
+                text="DEVELOPER"
+                fontFamily="font-grotest"
+                fontSize={isMobile ? 110 : 250}
+                strokeWidth={2}
+                strokeColor="#A78BFA"
+                fillColor="#E3F2FD"
+                drawDuration={5}
+                fillDelay={0.2}
+                stagger={0.01}
+                ease="power2.out"
+                trigger="mount"
+                fillMode="wipe"
+                fontWeight={400}
+                letterSpacing={0}
+                reverse={false}
+              />
+            </div>
+
+            <p className="max-w-2xl mx-auto font-neue text-sm sm:text-base lg:text-lg text-zinc-300 leading-relaxed mt-4 sm:mt-6">
+              Engineering responsive, pixel-perfect web interfaces with React,
+              Next.js, and TypeScript. Focused on scalable architecture, fluid
+              animations, and high performance.
+            </p>
+
+            <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4 mt-8 sm:mt-10">
+              <button
+                onClick={() => {
+                  const el = document.getElementById("projects");
+                  if (el) el.scrollIntoView({ behavior: "smooth" });
+                }}
+                className="min-h-[46px] px-6 py-2.5 rounded-full bg-teal-400 hover:bg-white text-black font-semibold font-neue text-sm sm:text-base transition-all flex items-center gap-2 focus-visible:ring-2 focus-visible:ring-teal-400 focus-visible:outline-none shadow-lg shadow-teal-500/20"
+              >
+                <span>Explore Projects</span>
+                <FaArrowRight className="text-xs" aria-hidden="true" />
+              </button>
+
+              <button
+                onClick={() => {
+                  const el = document.getElementById("contact");
+                  if (el) el.scrollIntoView({ behavior: "smooth" });
+                }}
+                className="min-h-[46px] px-6 py-2.5 rounded-full bg-zinc-900/80 hover:bg-zinc-800 text-zinc-200 hover:text-white border border-zinc-700 font-neue text-sm sm:text-base transition-all focus-visible:ring-2 focus-visible:ring-teal-400 focus-visible:outline-none"
+              >
+                Get in Touch
+              </button>
+
+              <button
+                onClick={handleCopyEmail}
+                className="min-h-[46px] px-5 py-2.5 rounded-full bg-zinc-900/60 hover:bg-zinc-800 text-zinc-300 hover:text-white border border-zinc-800 font-neue text-sm sm:text-base transition-all flex items-center gap-2 focus-visible:ring-2 focus-visible:ring-teal-400 focus-visible:outline-none"
+                aria-label="Copy email"
+              >
+                {copied ? (
+                  <>
+                    <FaCheck
+                      className="text-emerald-400 text-xs"
+                      aria-hidden="true"
+                    />
+                    <span className="text-emerald-400">Copied!</span>
+                  </>
+                ) : (
+                  <>
+                    <FaCopy
+                      className="text-teal-400 text-xs"
+                      aria-hidden="true"
+                    />
+                    <span>Copy Email</span>
+                  </>
+                )}
+              </button>
+            </div>
+
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4 mt-12 sm:mt-16 w-full max-w-3xl">
+              <div className="p-4 rounded-2xl bg-zinc-900/40 border border-zinc-800/80 backdrop-blur-sm">
+                <p className="text-xl sm:text-2xl font-bold text-white font-founderGrotest">
+                  2+ Years
+                </p>
+                <p className="text-xs text-zinc-400 font-neue mt-1">
+                  Frontend Experience
+                </p>
+              </div>
+              <div className="p-4 rounded-2xl bg-zinc-900/40 border border-zinc-800/80 backdrop-blur-sm">
+                <p className="text-xl sm:text-2xl font-bold text-teal-400 font-founderGrotest">
+                  Production
+                </p>
+                <p className="text-xs text-zinc-400 font-neue mt-1">
+                  Next.js & React Apps
+                </p>
+              </div>
+              <div className="p-4 rounded-2xl bg-zinc-900/40 border border-zinc-800/80 backdrop-blur-sm col-span-2 sm:col-span-1">
+                <p className="text-xl sm:text-2xl font-bold text-white font-founderGrotest">
+                  100%
+                </p>
+                <p className="text-xs text-zinc-400 font-neue mt-1">
+                  Focus on Performance
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <Ticker />
+
+        <section
+          id="about"
+          aria-label="About Mostafa Al Rafid"
+          className="px-5 sm:px-8 max-w-6xl mx-auto pt-20 sm:pt-28 pb-12"
+        >
+          <div className="mb-8">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-brolimo font-semibold text-white">
+              About & Craft<span className="text-teal-400">.</span>
+            </h2>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+            <div className="lg:col-span-5 p-6 sm:p-8 rounded-3xl bg-zinc-900/50 backdrop-blur-xl border border-zinc-800 flex flex-col items-center justify-center text-center">
+              <div className="flex justify-center mb-4">
+                <Mascot
+                  directions="/mascots/rafid-directions.webp"
+                  reactions="/mascots/rafid-reactions.webp"
+                  size={isMobile ? 220 : 280}
+                  className="rounded-2xl border border-zinc-700/60 p-2 shadow-2xl bg-zinc-900/80"
+                  alt="Mostafa Al Rafid Interactive Mascot"
+                />
+              </div>
+
+              <span className="text-xs font-neue text-zinc-400 bg-zinc-800/50 border border-zinc-700/50 px-3 py-1 rounded-full">
+                Interactive mascot • Move cursor to look around
+              </span>
+            </div>
+
+            <div className="lg:col-span-7 flex flex-col gap-5">
+              <div className="p-6 sm:p-8 rounded-3xl bg-zinc-900/50 backdrop-blur-xl border border-zinc-800 flex flex-col text-left">
+                <div className="flex flex-wrap items-center gap-3 mb-3">
+                  <span className="text-xs font-semibold uppercase text-teal-400 font-neue px-3 py-1 rounded-full bg-teal-950/60 border border-teal-500/20">
+                    Frontend Developer
+                  </span>
+                  <span className="flex items-center gap-1.5 text-xs text-zinc-300 font-neue px-3 py-1 rounded-full bg-zinc-800/60 border border-zinc-700/50">
+                    <FaMapMarkerAlt
+                      className="text-teal-400 text-xs shrink-0"
+                      aria-hidden="true"
+                    />
+                    <span>Dhaka, Bangladesh</span>
+                  </span>
+                </div>
+
+                <h3 className="text-2xl sm:text-3xl lg:text-4xl font-semibold text-teal-400 font-caveat mb-4">
+                  Mostafa Al Rafid
+                </h3>
+
+                <p className="font-neue text-sm sm:text-base text-zinc-300 leading-relaxed mb-6">
+                  Passionate Frontend Developer specializing in crafting modern,
+                  high-performance web applications. With hands-on experience in
+                  building scalable user interfaces using React, Next.js, and
+                  TypeScript, I translate intricate designs into responsive,
+                  accessible, and fluid user experiences. I thrive on solving
+                  complex frontend challenges and collaborating in dynamic team
+                  environments.
+                </p>
+
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 pt-2 border-t border-zinc-800/80">
+                  <div className="p-3.5 rounded-xl bg-zinc-800/40 border border-zinc-700/50 text-left">
+                    <p className="text-xs text-teal-400 font-neue font-medium">
+                      Core Focus
                     </p>
-                  )}
-                  <div className="">
-                    <div className="flex flex-col">
-                      <h1 className="font-grotest text-4xl lg:text-8xl font-thin text-white lg:mt-8">
-                        {titleParts[0]}
-                      </h1>
-                      <span className="z-10 typeAnimation text-4xl  lg:text-8xl font-semibold font-poppins tracking-[2px]">
-                        {titleParts[1]}
-                      </span>
-                      {/* <div
-                        style={{
-                          left: cursorX + "px",
-                          top: cursorY + "px",
-                        }}
-                        className="cursor"
-                      ></div> */}
-                    </div>
+                    <p className="text-sm font-semibold text-white font-neue">
+                      Frontend UI/UX
+                    </p>
                   </div>
-                </div>
-
-                <div className="mt-5">
-                  <SpotlightButton />
-                </div>
-
-                <div className="flex items-center justify-center">
-                  <div className="">
-                    <p
-                      style={{
-                        position: "relative",
-                        zIndex: 1, // Ensure the paragraph is on top of other elements to receive mouse events
-                      }}
-                      className="interactable mt-5 font-neue text-gray-100 text-sm"
-                    >
-                      {data?.user?.about?.description}
+                  <div className="p-3.5 rounded-xl bg-zinc-800/40 border border-zinc-700/50 text-left">
+                    <p className="text-xs text-teal-400 font-neue font-medium">
+                      Primary Stack
+                    </p>
+                    <p className="text-sm font-semibold text-white font-neue">
+                      React & Next.js
+                    </p>
+                  </div>
+                  <div className="p-3.5 rounded-xl bg-zinc-800/40 border border-zinc-700/50 text-left col-span-2 sm:col-span-1">
+                    <p className="text-xs text-teal-400 font-neue font-medium">
+                      Availability
+                    </p>
+                    <p className="text-sm font-semibold text-white font-neue">
+                      Global / Remote
                     </p>
                   </div>
                 </div>
               </div>
 
-              <div className="flex flex-col lg:flex-row items-center bg-cover bg-center">
-                <div>
-                  {data && (
-                    <img
-                      style={{
-                        borderRadius: "0.25rem", // Apply small border-radius
-                      }}
-                      data-value="-0.1"
-                      loading="lazy"
-                      className="mt-32 lg:mt-0 mx-auto lg:mx-0 mb-20 lg:mb-0 object object-cover object-center rounded-xl border-[1px] border-gray-500 p-2"
-                      src={data?.user?.about?.avatar?.url}
-                      alt=""
-                    />
-                  )}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="p-5 rounded-2xl bg-zinc-900/40 border border-zinc-800 flex flex-col justify-center">
+                  <span className="text-xs text-teal-400 font-neue uppercase font-semibold mb-1">
+                    Design & Performance
+                  </span>
+                  <p className="text-sm text-zinc-300 font-neue">
+                    Fluid micro-animations, accessible semantic structure, and
+                    sub-second load times.
+                  </p>
                 </div>
-                <div className="flex items-center justify-center z-50">
-                  <div className="">
-                    <a className="fancy myCustom">
-                      <span className="top-key"></span>
-                      <span className="text uppercase text-gray-400 font-neue tracking-[7px]">
-                        resume
-                      </span>
-                      <span className="bottom-key-1"></span>
-                      <span className="bottom-key-2"></span>
-                    </a>
-                  </div>
-                  <div className="z-50">
-                    <button className="Btn mb-3">
-                      <span className="svgContainer">
-                        <svg fill="white" viewBox="0 0 496 512" height="1.6em">
-                          <path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"></path>
-                        </svg>
-                      </span>
-                      <span className="BG"></span>
-                    </button>
-                    <button className="Btn mb-3">
-                      <span className="svgContainer">
-                        <svg
-                          viewBox="0 0 320 512"
-                          height="1.3em"
-                          xmlns="http://www.w3.org/2000/svg"
-                          className="svgIcon"
-                          fill="white"
-                        >
-                          <path d="M80 299.3V512H196V299.3h86.5l18-97.8H196V166.9c0-51.7 20.3-71.5 72.7-71.5c16.3 0 29.4 .4 37 1.2V7.9C291.4 4 256.4 0 236.2 0C129.3 0 80 50.5 80 159.4v42.1H14v97.8H80z"></path>
-                        </svg>
-                      </span>
-                      <span className="BG"></span>
-                    </button>
-                    <button className="Btn mb-3">
-                      <span className="svgContainer">
-                        <svg
-                          viewBox="0 0 512 512"
-                          height="1.7em"
-                          xmlns="http://www.w3.org/2000/svg"
-                          className="svgIcon"
-                          fill="white"
-                        >
-                          <path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z"></path>
-                        </svg>
-                      </span>
-                      <span className="BG"></span>
-                    </button>
-                    <button className="Btn mb-3">
-                      <span className="svgContainer">
-                        <svg
-                          viewBox="0 0 640 512"
-                          fill="white"
-                          height="1.4em"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path d="M524.5 69.8a1.5 1.5 0 0 0 -.8-.7A485.1 485.1 0 0 0 404.1 32a1.8 1.8 0 0 0 -1.9 .9 337.5 337.5 0 0 0 -14.9 30.6 447.8 447.8 0 0 0 -134.4 0 309.5 309.5 0 0 0 -15.1-30.6 1.9 1.9 0 0 0 -1.9-.9A483.7 483.7 0 0 0 116.1 69.1a1.7 1.7 0 0 0 -.8 .7C39.1 183.7 18.2 294.7 28.4 404.4a2 2 0 0 0 .8 1.4A487.7 487.7 0 0 0 176 479.9a1.9 1.9 0 0 0 2.1-.7A348.2 348.2 0 0 0 208.1 430.4a1.9 1.9 0 0 0 -1-2.6 321.2 321.2 0 0 1 -45.9-21.9 1.9 1.9 0 0 1 -.2-3.1c3.1-2.3 6.2-4.7 9.1-7.1a1.8 1.8 0 0 1 1.9-.3c96.2 43.9 200.4 43.9 295.5 0a1.8 1.8 0 0 1 1.9 .2c2.9 2.4 6 4.9 9.1 7.2a1.9 1.9 0 0 1 -.2 3.1 301.4 301.4 0 0 1 -45.9 21.8 1.9 1.9 0 0 0 -1 2.6 391.1 391.1 0 0 0 30 48.8 1.9 1.9 0 0 0 2.1 .7A486 486 0 0 0 610.7 405.7a1.9 1.9 0 0 0 .8-1.4C623.7 277.6 590.9 167.5 524.5 69.8zM222.5 337.6c-29 0-52.8-26.6-52.8-59.2S193.1 219.1 222.5 219.1c29.7 0 53.3 26.8 52.8 59.2C275.3 311 251.9 337.6 222.5 337.6zm195.4 0c-29 0-52.8-26.6-52.8-59.2S388.4 219.1 417.9 219.1c29.7 0 53.3 26.8 52.8 59.2C470.7 311 447.5 337.6 417.9 337.6z"></path>
-                        </svg>
-                      </span>
-                      <span className="BG"></span>
-                    </button>
-                  </div>
+                <div className="p-5 rounded-2xl bg-zinc-900/40 border border-zinc-800 flex flex-col justify-center">
+                  <span className="text-xs text-teal-400 font-neue uppercase font-semibold mb-1">
+                    Clean Code Standard
+                  </span>
+                  <p className="text-sm text-zinc-300 font-neue">
+                    Modular components, strict typing, reusable hooks, and
+                    scalable state management.
+                  </p>
                 </div>
               </div>
             </div>
           </div>
-          <hr className="w-4/5 mx-auto border-[0.1px] border-gray-400 mt-32 mb-10" />
         </section>
-      </div>
-      {/* skills */}
-      <div className="max-w-screen-xl mx-auto">
-        <p className="ml-5 lg:ml-0 text-6xl font-brolimo font-semibold text-white mb-7">
-          Skills<span className="blinking">.</span>{" "}
-        </p>
-        <Skills data={data}></Skills>
-      </div>
-      {/* services */}
-      <div className="">
-        <div
-          data-scroll
-          data-scroll-speed="-.5"
-          className="border-[0.5px] border-zinc-700 rounded-xl  mx-5 py-10 mt-[400px]"
+
+        <section
+          id="skills"
+          aria-label="Skills and Technologies"
+          className="max-w-6xl mx-auto px-5 sm:px-8 py-16 sm:py-20"
         >
-          <Services data={data}></Services>
-        </div>
-      </div>
-      {/* projects */}
-      <div
-        className="mt-[400px]"
-        style={{
-          backgroundImage: `url(${doodle})`,
-          backgroundPosition: "center center",
-          backgroundSize: "cover",
-          backgroundRepeat: "no-repeat",
-        }}
-      >
-        <Projects data={data}></Projects>
-      </div>
-      <div>
-        <About data={data}></About>
-      </div>
-      <div className="mt-20">
-        <Contact></Contact>
-      </div>
-      {/* <div>
-        <Testimonials data={data}></Testimonials>
-      </div> */}
+          <div className="mb-8">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-brolimo font-semibold text-white">
+              Skills & Technologies<span className="text-teal-400">.</span>
+            </h2>
+          </div>
+          <NewSkill />
+        </section>
+
+        <section
+          id="projects"
+          aria-label="Featured Projects"
+          className="max-w-7xl mx-auto px-4 sm:px-8 py-16 sm:py-20"
+        >
+          <div className="mb-8 px-2">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-brolimo font-semibold text-white">
+              Featured Projects<span className="text-teal-400">.</span>
+            </h2>
+          </div>
+          <Projects />
+        </section>
+
+        <section
+          aria-label="Experience and Education"
+          className="max-w-6xl mx-auto px-5 sm:px-8 py-16 sm:py-20"
+        >
+          <Educations />
+        </section>
+      </main>
+
+      <SpecialFooter />
+
       {topButton && (
         <button
-          className="fixed bottom-[50px] right-[50px] lg:bottom-[50px] lg:right-[50px] h-[50px] w-[50px] lg:h-[50px] lg:w-[50px] text-4xl text-green-400 bg-zinc-700 rounded-full flex items-center justify-center"
+          className="fixed bottom-6 right-6 lg:bottom-10 lg:right-10 w-12 h-12 text-2xl text-teal-400 bg-zinc-900/90 border border-zinc-700/80 backdrop-blur-md rounded-full flex items-center justify-center z-50 transition-all hover:scale-110 hover:border-teal-400 focus-visible:ring-2 focus-visible:ring-teal-400 focus-visible:outline-none shadow-xl"
           onClick={scrollUp}
+          aria-label="Scroll to top"
         >
           <IoIosArrowUp />
         </button>

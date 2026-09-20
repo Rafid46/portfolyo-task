@@ -4,7 +4,7 @@ import React, { useEffect } from "react";
 import { GoDot } from "react-icons/go";
 import { useInView } from "react-intersection-observer";
 
-const Skill = ({ data, skill, index }) => {
+const Skill = ({ data, index }) => {
   const { ref, inView } = useInView({ threshold: 0.5 });
   const controls = useAnimation();
 
@@ -13,7 +13,6 @@ const Skill = ({ data, skill, index }) => {
       controls.start({ opacity: 1, x: 0 });
     }
   }, [inView, controls]);
-
   return (
     <motion.div
       id="skills"
@@ -22,58 +21,7 @@ const Skill = ({ data, skill, index }) => {
       animate={controls}
       className="flex items-center mr-4 mb-4 mx-5 lg:mx-0"
     >
-      <p
-        className={
-          skill?.name === "Python"
-            ? "text-5xl font-poppins font-thin text-green-400"
-            : skill?.name === "react"
-            ? "text-5xl font-poppins font-thin text-blue-400"
-            : skill?.name === "Figma"
-            ? "text-5xl font-poppins font-thin text-pink-500"
-            : skill?.name === "C++"
-            ? "text-5xl font-poppins font-thin text-blue-500"
-            : skill?.name === "TypeScript"
-            ? "text-5xl font-poppins font-thin text-blue-400"
-            : skill?.name === "Docker"
-            ? "text-5xl font-poppins font-thin text-blue-300"
-            : skill?.name === "Node.js"
-            ? "text-5xl font-poppins font-thin text-green-600"
-            : skill?.name === "MongoDB"
-            ? "text-5xl font-poppins font-thin text-green-200"
-            : skill?.name === "Vercel"
-            ? "text-5xl font-poppins font-thin text-white"
-            : skill?.name === "Three.js"
-            ? "text-5xl font-poppins font-thin text-red-300"
-            : skill?.name === "Redux"
-            ? "text-5xl font-poppins font-thin text-pink-400"
-            : skill?.name === "Javascript"
-            ? "text-5xl font-poppins font-thin text-yellow-200"
-            : skill?.name === "Git"
-            ? "text-5xl font-poppins font-thin text-white"
-            : skill?.name === "Sass"
-            ? "text-5xl font-poppins font-thin text-pink-500"
-            : skill?.name === "GraphQl"
-            ? "text-5xl font-poppins font-thin text-pink-500"
-            : skill?.name === "Next.js"
-            ? "text-5xl font-poppins font-thin text-white"
-            : skill?.name === "React"
-            ? "text-5xl font-poppins font-thin text-blue-400"
-            : skill?.name === "Tailwind"
-            ? "text-5xl font-poppins font-thin text-blue-500"
-            : skill?.name === "HTML"
-            ? "text-5xl font-poppins font-thin text-orange-500"
-            : skill?.name === "Sass"
-            ? "text-5xl font-poppins font-thin text-pink-500"
-            : skill?.name === "CSS"
-            ? "text-5xl font-poppins font-thin text-blue-200"
-            : skill?.name === "Github"
-            ? "text-5xl font-poppins font-thin text-gray-400"
-            : ""
-        }
-      >
-        {skill?.name}
-      </p>
-      {index !== data?.user?.skills?.length - 1 && (
+      {/* {index !== data?.user?.skills?.length - 1 && (
         <motion.p
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -81,17 +29,77 @@ const Skill = ({ data, skill, index }) => {
         >
           <GoDot className="text-gray-500" />
         </motion.p>
-      )}
+      )} */}
     </motion.div>
   );
 };
 
-const SkillsList = ({ data }) => {
+const SkillsList = () => {
   return (
-    <div className="flex flex-wrap justify-start">
-      {data?.user?.skills?.map((skill, index) => (
-        <Skill key={skill._id} skill={skill} index={index} />
-      ))}
+    <div className="flex flex-wrap items-center gap-2 lg:gap-5">
+      <p className="text-yellow-400 text-sm lg:text-5xl font-poppins font-normal">
+        JavaScript
+      </p>
+      <p className="text-3xl text-black mx-0 lg:mx-8">.</p>
+      <p className="text-orange-500 text-sm lg:text-5xl font-poppins font-normal">
+        HTML5
+      </p>
+      <p className="text-3xl text-black mx-0 lg:mx-8">.</p>
+      <p className="text-blue-500 text-sm lg:text-5xl font-poppins font-normal">
+        CSS
+      </p>
+      <p className="text-3xl text-black mx-0 lg:mx-8">.</p>
+      <p className="text-green-500 text-sm lg:text-5xl font-poppins font-normal">
+        Node
+      </p>
+      <p className="text-3xl text-black mx-0 lg:mx-8">.</p>
+      <p className="text-gray-500 text-sm lg:text-5xl font-poppins font-normal">
+        Express
+      </p>
+      <p className="text-3xl text-black mx-0 lg:mx-8">.</p>
+      <p className="text-green-600 text-sm lg:text-5xl font-poppins font-normal">
+        MongoDB
+      </p>
+      <p className="text-3xl text-black mx-0 lg:mx-8">.</p>
+      <p className="text-teal-400 text-sm lg:text-5xl font-poppins font-normal">
+        Tailwind CSS
+      </p>
+      <p className="text-3xl text-black mx-0 lg:mx-8">.</p>
+      <p className="text-blue-300 text-sm lg:text-5xl font-poppins font-normal">
+        React
+      </p>
+      <p className="text-3xl text-black mx-0 lg:mx-8">.</p>
+      <p className="text-red-500 text-sm lg:text-5xl font-poppins font-normal">
+        Ant Design
+      </p>
+      <p className="text-3xl text-black mx-0 lg:mx-8">.</p>
+      <p className="text-amber-500 text-sm lg:text-5xl font-poppins font-normal">
+        Firebase
+      </p>
+      <p className="text-3xl text-black mx-0 lg:mx-8">.</p>
+      <p className="text-red-600 text-sm lg:text-5xl font-poppins font-normal">
+        Git
+      </p>
+      <p className="text-3xl text-black mx-0 lg:mx-8">.</p>
+      <p className="text-black text-sm lg:text-5xl font-poppins font-normal">
+        GitHub
+      </p>
+      <p className="text-3xl text-black mx-0 lg:mx-8">.</p>
+      <p className="text-blue-600 text-sm lg:text-5xl font-poppins font-normal">
+        Axios
+      </p>
+      <p className="text-3xl text-black mx-0 lg:mx-8">.</p>
+      <p className="text-pink-400 text-sm lg:text-5xl font-poppins font-normal">
+        Framer Motion
+      </p>
+      <p className="text-3xl text-black mx-0 lg:mx-8">.</p>
+      <p className="text-red-700 text-sm lg:text-5xl font-poppins font-normal">
+        Mongoose
+      </p>
+      <p className="text-3xl text-black mx-0 lg:mx-8">.</p>
+      <p className="text-blue-700 text-sm lg:text-5xl font-poppins font-normal">
+        Typescript
+      </p>
     </div>
   );
 };

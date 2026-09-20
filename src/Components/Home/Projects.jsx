@@ -1,22 +1,79 @@
-/* eslint-disable react/jsx-key */
 /* eslint-disable react/prop-types */
 import { motion, useTransform, useScroll } from "framer-motion";
-import { LuExternalLink } from "react-icons/lu";
-import { useRef, useState } from "react";
-import { Link } from "react-router-dom";
-import Modal from "./Modal";
-const Projects = ({ data }) => {
+import { useRef } from "react";
+import { VscGithub } from "react-icons/vsc";
+import { BsArrowUpRight } from "react-icons/bs";
+import diffImg from "../../assets/diff.png";
+import project6 from "../../assets/project6.png";
+import "./liveLinkButton.css";
+const Projects = () => {
+  const data = [
+    {
+      id: 1,
+      image: project6,
+      icon: <VscGithub />,
+      tech: "React js . typescript . mongoose . tailwind . ant design . tanstack . zustand . firebase . Node . Express",
+      name: "Learning communication",
+      tag: "Education",
+      link: "https://acadizo.netlify.app",
+      git: "https://github.com/Rafid46/acadizo_frontend",
+    },
+    /*
+    {
+      id: 2,
+      image: project1,
+      icon: <VscGithub />,
+      tech: "React . Mongodb . Node . Express . Firebase",
+      name: "Restaurant Management",
+      tag: "Restaurant Management",
+      link: "https://tubular-dusk-eba567.netlify.app",
+      git: "https://github.com/Rafid46/Restaurant-management",
+    },
+    */
+    {
+      id: 3,
+      image: diffImg,
+      icon: <VscGithub />,
+      tech: "Next js . TypeScript . Tailwind CSS",
+      name: "Diff Editor",
+      tag: "Developer Tools",
+      link: "https://diffy-eta.vercel.app/",
+      git: "https://github.com/Rafid46/diff-editor",
+    },
+    /*
+    {
+      id: 4,
+      image: project2,
+      icon: <VscGithub />,
+      tech: "React . Mongodb . Node . Express . Firebase",
+      name: "Todo application",
+      tag: "Task management",
+      link: "https://frabjous-griffin-0a1eae.netlify.app",
+      git: "https://github.com/Rafid46/to-do",
+    },
+    {
+      id: 5,
+      image: project3,
+      icon: <VscGithub />,
+      tech: "React . Tailwind",
+      name: "E-sports blog",
+      tag: "E-sports",
+      link: "https://event-management-b4db5.web.app/",
+      git: "https://github.com/Rafid46/event-management",
+    },
+    */
+    {
+      id: 6,
+      isManyMore: true,
+    },
+  ];
+
   return (
-    <div id="projects" className="mx-5">
-      <button className="text-gray-200 font-brolimo  font-thin tracking-[2px] text-6xl headbutton">
-        Projects
-      </button>
+    <div id="projects" className="mx-4 sm:mx-5">
       <HorizontalScrollCarousel data={data} />
     </div>
   );
 };
-
-export default Projects;
 
 const HorizontalScrollCarousel = ({ data }) => {
   const targetRef = useRef(null);
@@ -24,123 +81,83 @@ const HorizontalScrollCarousel = ({ data }) => {
     target: targetRef,
   });
 
-  const x = useTransform(scrollYProgress, [0, 1], ["1%", "-95%"]);
-  const cards = data?.user?.projects || [];
-  const reversedCards = [...cards].reverse();
+  const x = useTransform(scrollYProgress, [0, 1], ["1%", "-45%"]);
+
   return (
-    <section ref={targetRef} className="relative h-[300vh]">
+    <section ref={targetRef} className="relative h-[150vh] -mt-[100px]">
       <div className="sticky top-0 flex h-screen items-center overflow-hidden">
         <motion.div style={{ x }} className="flex gap-4">
-          {reversedCards.map((card) => {
-            return <Card card={card} key={card.id} />;
-          })}
+          {data?.map((card) => (
+            <Card card={card} key={card?.id} />
+          ))}
         </motion.div>
       </div>
     </section>
   );
 };
+
 const Card = ({ card }) => {
-  //   console.log(card.title);
-  //   const [isOpen, setIsOpen] = useState(false);
-  //   const [modalData, setModalData] = useState(null);
-  //   console.log(modalData?.image?.url);
-  //   const details = modalData?.title;
-  //   console.log(details);
-  //   const { title } = modalData;
-  //   const projectDetails = modalData.title === card.title ? modalData : null;
-  //   console.log(projectDetails);
-  return (
-    <div
-      key={card.id}
-      className="group relative h-[450px] w-[450px] overflow-hidden"
-    >
-      <div
-        style={{
-          backgroundImage: `linear-gradient(to top,rgba(0,0,0,0), rgba(0,0,0,0), rgba(0,0,0,0.8)),url(${card?.image?.url})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          backgroundRepeat: "no-repeat",
-        }}
-        className="bg-blend-darken absolute inset-0 z-0 transition-transform duration-300 group-hover:scale-110"
-      ></div>
-      <div className="flex z-10 items-center justify-between place-content-start">
-        <p className="font-poppins font-medium bg-gradient-to-br from-white/30 to-white/0 px-6 py-5 text-xl uppercase text-white backdrop-blur-lg">
-          {card?.title}
-        </p>
-        <Link to={`${card?._id}`}>
-          <p
-            onClick={(e) => {
-              e.preventDefault();
-              document.getElementById("my_modal_1").showModal();
-            }}
-            className="backdrop-blur-lg z-10 mr-5 rounded-full border-[1px] p-3 cursor-pointer"
-          >
-            <LuExternalLink className="text-xl text-white" />
-          </p>
-        </Link>
-        <dialog id="my_modal_1" className="modal">
-          {
-            <div className="modal-box">
-              <h3 className="font-bold text-lg">Hello!</h3>
-              <p className="py-4">{card?.image?.url}</p>
-              <div className="modal-action">
-                <form method="dialog">
-                  <button className="btn">Close</button>
-                </form>
-              </div>
-            </div>
-          }
-        </dialog>
-        {/* <Link to={`/testimonial/${card?._id}}`}>
-          <p
-            // onClick={(e) => {
-            //   setModalData(card);
-            //   e.preventDefault();
-            //   document.getElementById("my_modal_1").showModal();
-            // }}
-            className="backdrop-blur-lg z-10 mr-5 rounded-full border-[1px] p-3 cursor-pointer"
-          >
-            <LuExternalLink className="text-xl text-white" />
-          </p>
-        </Link> */}
+  if (card.isManyMore) {
+    return (
+      <div className="flex items-center justify-center w-[280px] sm:w-[350px] lg:w-[400px] h-[260px] sm:h-[320px] lg:h-[420px]">
+        <div className="text-gray-300 text-lg sm:text-xl lg:text-2xl font-neue bg-zinc-900/60 backdrop-blur-md px-8 py-6 rounded-2xl border border-zinc-700/60 text-center">
+          <span>And many more projects...</span>
+        </div>
       </div>
-      {/* <Modal modalData={modalData} card={card}></Modal> */}
-    </div>
+    );
+  }
+
+  return (
+    <article className="flex flex-col">
+      <div className="relative w-[82vw] sm:w-[480px] md:w-[600px] lg:w-[680px] h-[260px] sm:h-[320px] lg:h-[420px] overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-900 group">
+        <div
+          style={{
+            backgroundImage: `url(${card?.image})`,
+          }}
+          className="bg-cover bg-center w-full h-full transition-transform duration-500 ease-out group-hover:scale-105"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-black/20" />
+
+        <div className="absolute top-4 right-4 z-10">
+          <a
+            target="_blank"
+            href={card?.git}
+            rel="noreferrer"
+            aria-label={`GitHub repository for ${card?.name}`}
+            className="w-11 h-11 flex items-center justify-center rounded-full bg-zinc-900/80 backdrop-blur-md border border-white/15 text-white hover:text-teal-400 hover:border-teal-400/50 transition-colors focus-visible:ring-2 focus-visible:ring-teal-400 focus-visible:outline-none"
+          >
+            <span className="text-xl">{card?.icon}</span>
+          </a>
+        </div>
+
+        <div className="absolute bottom-4 left-4 right-4 z-10 flex flex-col gap-2">
+          <div className="flex items-center justify-between gap-3">
+            <span className="text-xs sm:text-sm font-medium text-teal-300 px-3 py-1 rounded-full bg-teal-950/70 border border-teal-500/30">
+              {card?.tag}
+            </span>
+            <p className="text-xs sm:text-sm text-gray-300 truncate max-w-[60%] font-neue">
+              {card?.tech}
+            </p>
+          </div>
+
+          <div className="flex items-center justify-between pt-1">
+            <h3 className="text-white text-lg sm:text-2xl font-bold font-neue">
+              {card?.name}
+            </h3>
+            <a
+              href={card?.link}
+              target="_blank"
+              rel="noreferrer"
+              aria-label={`View live site for ${card?.name}`}
+              className="w-11 h-11 flex items-center justify-center rounded-full bg-teal-400 text-black hover:bg-white transition-colors focus-visible:ring-2 focus-visible:ring-teal-400 focus-visible:outline-none"
+            >
+              <BsArrowUpRight className="text-lg" />
+            </a>
+          </div>
+        </div>
+      </div>
+    </article>
   );
 };
-//   {
-//     url: "/imgs/abstract/1.jpg",
-//     title: "Title 1",
-//     id: 1,
-//   },
-//   {
-//     url: "/imgs/abstract/2.jpg",
-//     title: "Title 2",
-//     id: 2,
-//   },
-//   {
-//     url: "/imgs/abstract/3.jpg",
-//     title: "Title 3",
-//     id: 3,
-//   },
-//   {
-//     url: "/imgs/abstract/4.jpg",
-//     title: "Title 4",
-//     id: 4,
-//   },
-//   {
-//     url: "/imgs/abstract/5.jpg",
-//     title: "Title 5",
-//     id: 5,
-//   },
-//   {
-//     url: "/imgs/abstract/6.jpg",
-//     title: "Title 6",
-//     id: 6,
-//   },
-//   {
-//     url: "/imgs/abstract/7.jpg",
-//     title: "Title 7",
-//     id: 7,
-//   },
-// ];
+
+export default Projects;
