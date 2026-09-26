@@ -2,36 +2,22 @@ import { Outlet } from "react-router-dom";
 import GlowCursor from "../cursor/GlowCursor";
 import Preloader from "../Components/Home/Preloader";
 import { useEffect, useState } from "react";
-import LocomotiveScroll from "locomotive-scroll";
+import { useSmoothScroll } from "../lib/smoothScroll";
 
 const MainLayout = () => {
   const [isLoading, setIsLoading] = useState(true);
-  const [scroll, setScroll] = useState(null);
+
+  // Lenis + ScrollTrigger share one RAF loop; only starts once the preloader
+  // is gone so pinned sections measure against the real layout.
+  useSmoothScroll(!isLoading);
 
   useEffect(() => {
-    // Fake data fetch to simulate loading
-    const fakeDataFetch = () => {
-      setTimeout(() => {
-        setIsLoading(false);
-      }, 2000);
-    };
-    fakeDataFetch();
-
-    // Initialize LocomotiveScroll
-    const scrollInstance = new LocomotiveScroll({
-      el: document.querySelector("#scroll-container"),
-      smooth: true,
-    });
-    setScroll(scrollInstance);
-
-    // Cleanup LocomotiveScroll instance on unmount
-    return () => {
-      if (scrollInstance) scrollInstance.destroy();
-    };
+    const timer = setTimeout(() => setIsLoading(false), 2000);
+    return () => clearTimeout(timer);
   }, []);
 
   return (
-    <div id="scroll-container" className=" min-h-screen text-white relative">
+    <div id="scroll-container" className="min-h-screen text-white relative">
       <div className="relative z-10">
         {isLoading ? (
           <Preloader />

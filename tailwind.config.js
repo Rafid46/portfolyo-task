@@ -15,6 +15,7 @@ export default {
         contrail: ["'Contrail One'", "sans-serif"],
         vina: ["'Vina Sans'", "sans-serif"],
         climate: ["'Climate Crisis'", "sans-serif"],
+        bricolage: ["'Bricolage Grotesque'", "sans-serif"],
       },
     },
   },
