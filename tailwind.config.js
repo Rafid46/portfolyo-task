@@ -16,6 +16,8 @@ export default {
         vina: ["'Vina Sans'", "sans-serif"],
         climate: ["'Climate Crisis'", "sans-serif"],
         bricolage: ["'Bricolage Grotesque'", "sans-serif"],
+        archivo: ["'Archivo'", "sans-serif"],
+        interTight: ["'Inter Tight'", "sans-serif"],
       },
     },
   },

@@ -60,12 +60,12 @@ export function useSmoothScroll(enabled = true) {
 }
 
 /** Smooth-scroll to an element id, falling back to native behaviour. */
-export function scrollToId(id, offset = -72) {
+export function scrollToId(id, offset = -72, duration = id === "contact" ? 7.5 : 1.2) {
   const el = document.getElementById(id);
   if (!el) return;
 
   if (lenis && !prefersReducedMotion()) {
-    lenis.scrollTo(el, { offset, duration: 1.2 });
+    lenis.scrollTo(el, { offset, duration });
     return;
   }
   el.scrollIntoView({
