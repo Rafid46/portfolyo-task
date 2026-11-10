@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { scrollToId } from "../../lib/smoothScroll";
 import diffImg from "../../assets/diff.png";
 import Mascot from "../Mascot/Mascot";
@@ -32,17 +32,29 @@ const EditorialHero = () => {
   const [countExp, setCountExp] = useState(0);
   const [countProjects, setCountProjects] = useState(0);
   const [scrollY, setScrollY] = useState(0);
+  const isNavClickRef = useRef(false);
+  const navClickTimerRef = useRef(null);
 
   const handleNavChange = (index, item) => {
     setActiveNavIdx(index);
+    isNavClickRef.current = true;
+    if (navClickTimerRef.current) clearTimeout(navClickTimerRef.current);
+
+    const unlock = () => {
+      isNavClickRef.current = false;
+    };
+
+    const duration = item.label === "Contact" ? 1.4 : 1.2;
+    navClickTimerRef.current = setTimeout(unlock, duration * 1000 + 100);
+
     if (item.label === "Home") {
-      scrollToId("home");
+      scrollToId("home", -72, duration, unlock);
     } else if (item.label === "Work") {
-      scrollToId("projects");
+      scrollToId("experience", -72, duration, unlock);
     } else if (item.label === "About") {
-      scrollToId("manifesto");
+      scrollToId("manifesto", -72, duration, unlock);
     } else if (item.label === "Contact") {
-      scrollToId("contact", -72, 7.5);
+      scrollToId("contact", 0, duration, unlock);
     }
   };
 
@@ -51,13 +63,20 @@ const EditorialHero = () => {
       const y = window.scrollY;
       setScrollY(y);
 
+      if (isNavClickRef.current) return;
+
       const contactEl = document.getElementById("contact");
-      const projectsEl = document.getElementById("projects");
+      const experienceEl = document.getElementById("experience");
       const manifestoEl = document.getElementById("manifesto");
 
-      if (contactEl && y + window.innerHeight >= document.documentElement.scrollHeight - 350) {
+      const scrollBottom = y + window.innerHeight;
+      const isNearBottom =
+        scrollBottom >= document.documentElement.scrollHeight - 150 ||
+        (contactEl && y >= contactEl.offsetTop - 100);
+
+      if (isNearBottom) {
         setActiveNavIdx(3);
-      } else if (projectsEl && y + 300 >= projectsEl.offsetTop) {
+      } else if (experienceEl && y + 300 >= experienceEl.offsetTop) {
         setActiveNavIdx(1);
       } else if (manifestoEl && y + 300 >= manifestoEl.offsetTop) {
         setActiveNavIdx(2);
@@ -75,7 +94,10 @@ const EditorialHero = () => {
       setLoaded(true);
       setCountExp(2);
       setCountProjects(10);
-      return () => window.removeEventListener("scroll", handleScroll);
+      return () => {
+        window.removeEventListener("scroll", handleScroll);
+        if (navClickTimerRef.current) clearTimeout(navClickTimerRef.current);
+      };
     }
 
     setLoaded(true);
@@ -97,7 +119,10 @@ const EditorialHero = () => {
     };
     requestAnimationFrame(animateCounters);
 
-    return () => window.removeEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      if (navClickTimerRef.current) clearTimeout(navClickTimerRef.current);
+    };
   }, []);
 
   return (
@@ -118,18 +143,16 @@ const EditorialHero = () => {
         }`}
       />
       <header
-        className={`fixed z-50 transition-all duration-700 ease-out left-4 md:left-[calc(var(--u)*57)] top-4 md:top-[calc(var(--u)*40)] ${
-          loaded ? "translate-y-0 opacity-100" : "-translate-y-5 opacity-0"
-        }`}
+        className={`fixed z-50 transition-all duration-700 ease-out left-4 md:left-[calc(var(--u)*57)] top-4 md:top-[calc(var(--u)*40)] `}
       >
-        <div className="bg-[#111111]/85 backdrop-blur-md rounded-full p-1 border border-white/10 shadow-[0_4px_24px_rgba(0,0,0,0.35)]">
+        <div className="rounded-full p-1">
           <GooeyNav
             items={NAV_ITEMS}
             initialActiveIndex={0}
             activeIndex={activeNavIdx}
             theme="dark"
-            color="#f4f4f5"
-            size="md"
+            color={scrollY > 280 ? "#ffffffff" : "#383737ff"}
+            size="lg"
             frame={false}
             particleCount={24}
             spread={26}

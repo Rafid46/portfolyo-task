@@ -59,19 +59,35 @@ export function useSmoothScroll(enabled = true) {
   }, [enabled]);
 }
 
-/** Smooth-scroll to an element id, falling back to native behaviour. */
-export function scrollToId(id, offset = -72, duration = id === "contact" ? 7.5 : 1.2) {
+export function scrollToId(id, offset = -72, duration = id === "contact" ? 7.5 : 1.2, onComplete) {
+  if (id === "contact") {
+    if (lenis && !prefersReducedMotion()) {
+      lenis.scrollTo("bottom", { duration, onComplete });
+      return;
+    }
+    window.scrollTo({
+      top: document.documentElement.scrollHeight,
+      behavior: prefersReducedMotion() ? "auto" : "smooth",
+    });
+    if (onComplete) {
+      setTimeout(onComplete, prefersReducedMotion() ? 50 : duration * 1000);
+    }
+    return;
+  }
   const el = document.getElementById(id);
   if (!el) return;
 
   if (lenis && !prefersReducedMotion()) {
-    lenis.scrollTo(el, { offset, duration });
+    lenis.scrollTo(el, { offset, duration, onComplete });
     return;
   }
   el.scrollIntoView({
     behavior: prefersReducedMotion() ? "auto" : "smooth",
     block: "start",
   });
+  if (onComplete) {
+    setTimeout(onComplete, prefersReducedMotion() ? 50 : duration * 1000);
+  }
 }
 
 export function scrollToTop() {

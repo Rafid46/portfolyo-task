@@ -241,14 +241,19 @@ void main() {
 `;
 
 const parse = (value: string): Rgba => {
-  const match = /^#?([0-9a-f]{3}|[0-9a-f]{6})$/i.exec(String(value).trim());
-  if (match) {
-    const hex = match[1].length === 3 ? match[1].replace(/./g, digit => digit + digit) : match[1];
-    return [0, 2, 4].map(index => parseInt(hex.slice(index, index + 2), 16) / 255).concat(1);
+  const hex = /^#?([0-9a-f]{3,8})$/i.exec(String(value).trim());
+  if (hex) {
+    let raw = hex[1];
+    if (raw.length === 3) raw = raw.replace(/./g, d => d + d) + 'ff';
+    else if (raw.length === 4) raw = raw.replace(/./g, d => d + d);
+    else if (raw.length === 6) raw = raw + 'ff';
+    if (raw.length === 8) {
+      return [0, 2, 4, 6].map(i => parseInt(raw.slice(i, i + 2), 16) / 255);
+    }
   }
   const rgba = /rgba?\(([^)]+)\)/i.exec(String(value));
   if (rgba) {
-    const parts = rgba[1].split(',').map(part => parseFloat(part));
+    const parts = rgba[1].split(',').map(part => parseFloat(part.trim()));
     return [parts[0] / 255, parts[1] / 255, parts[2] / 255, parts[3] ?? 1];
   }
   return [1, 1, 1, 1];
@@ -935,3 +940,4 @@ const GooeyNav = ({
 };
 
 export default GooeyNav;
+

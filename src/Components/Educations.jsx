@@ -3,7 +3,7 @@ import { FaCircle } from "react-icons/fa";
 const Educations = () => {
   return (
     <div className="flex flex-col lg:flex-row gap-12 lg:gap-16 mt-12 sm:mt-20">
-      <section id="experience" aria-label="Work Experience" className="flex-1">
+      <section aria-label="Work Experience" className="flex-1">
         <div className="flex items-center justify-start mb-6 sm:mb-8">
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold font-founderGrotest text-white">
             Experience<span className="text-teal-400">.</span>
