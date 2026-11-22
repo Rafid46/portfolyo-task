@@ -13,10 +13,6 @@ import { BsArrowUpRight } from "react-icons/bs";
 import Magnetic from "../motion/Magnetic";
 import { scrollToTop } from "../../lib/smoothScroll";
 
-/**
- * Sits on the lower stacking layer of <FooterReveal />, so its height is kept
- * under one viewport — the reveal falls back to normal flow if it grows past that.
- */
 const SpecialFooter = () => {
   const [dhakaTime, setDhakaTime] = useState("");
   const [copied, setCopied] = useState(false);
@@ -56,35 +52,35 @@ const SpecialFooter = () => {
   return (
     <footer
       aria-label="Contact and Footer"
-      className="w-full bg-zinc-950 border-t border-zinc-800/80 pt-12 sm:pt-14 pb-6 relative overflow-hidden"
+      className="w-full bg-[#0c0c0f] border-t border-white/15 pt-10 sm:pt-12 pb-6 relative overflow-hidden"
     >
       <div className="max-w-7xl mx-auto px-5 sm:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 pb-10 sm:pb-12 border-b border-zinc-800/80">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 pb-8 sm:pb-10 border-b border-white/10">
           <div className="lg:col-span-7 flex flex-col items-start text-left">
             <div className="flex flex-wrap items-center gap-3 mb-5">
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-xs font-neue text-emerald-400">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/25 text-xs font-mono text-emerald-400">
                 <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
                 <span>Available for opportunities</span>
               </div>
 
               {dhakaTime && (
-                <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-zinc-900 border border-zinc-800 text-xs font-neue text-zinc-400">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#141418] border border-white/10 text-xs font-mono text-zinc-400">
                   <FaClock
                     className="text-teal-400 text-xs shrink-0"
                     aria-hidden="true"
                   />
                   <span>Dhaka, BD (GMT+6)</span>
-                  <span className="text-zinc-200 font-mono">{dhakaTime}</span>
+                  <span className="text-zinc-200">{dhakaTime}</span>
                 </div>
               )}
             </div>
 
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold font-founderGrotest text-white leading-tight mb-4">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-semibold font-archivo text-[#f4f4f0] leading-tight mb-4">
               Let&apos;s build something exceptional together
               <span className="text-teal-400">.</span>
             </h2>
 
-            <p className="font-neue text-sm sm:text-base text-zinc-400 max-w-xl leading-relaxed mb-6">
+            <p className="font-interTight text-sm sm:text-base text-zinc-400 max-w-xl leading-relaxed mb-6">
               Frontend Developer based in Dhaka, Bangladesh. Passionate about
               building fast, accessible, and aesthetically elevated digital
               experiences. Open for full-time engineering roles and innovative
@@ -92,23 +88,21 @@ const SpecialFooter = () => {
             </p>
 
             <div className="flex flex-wrap items-center gap-3">
-              <Magnetic strength={0.4}>
+              <Magnetic strength={0.35}>
                 <a
                   href="mailto:mostafarafid45@gmail.com"
-                  className="min-h-[46px] px-6 py-2.5 rounded-full bg-teal-400 hover:bg-white text-black font-semibold font-neue text-sm sm:text-base transition-colors flex items-center gap-2 shadow-lg shadow-teal-500/10 focus-visible:ring-2 focus-visible:ring-teal-400 focus-visible:outline-none"
+                  className="min-h-[44px] px-6 py-2.5 rounded-full bg-teal-400 hover:bg-[#f4f4f0] text-[#08080a] font-archivo font-semibold text-xs sm:text-sm uppercase transition-colors flex items-center gap-2 focus-visible:ring-2 focus-visible:ring-teal-400 focus-visible:outline-none"
                 >
                   <span>Send an Email</span>
-                  <BsArrowUpRight
-                    className="text-sm font-bold"
-                    aria-hidden="true"
-                  />
+                  <BsArrowUpRight aria-hidden="true" />
                 </a>
               </Magnetic>
 
-              <Magnetic strength={0.4}>
+              <Magnetic strength={0.35}>
                 <button
+                  type="button"
                   onClick={handleCopyEmail}
-                  className="min-h-[46px] px-5 py-2.5 rounded-full bg-zinc-900 hover:bg-zinc-800 text-zinc-200 hover:text-white border border-zinc-700/80 font-neue text-sm sm:text-base transition-colors flex items-center gap-2 focus-visible:ring-2 focus-visible:ring-teal-400 focus-visible:outline-none relative"
+                  className="min-h-[44px] px-5 py-2.5 rounded-full bg-[#141418] hover:bg-zinc-800 text-zinc-200 hover:text-white border border-white/15 font-interTight text-xs sm:text-sm transition-colors flex items-center gap-2 focus-visible:ring-2 focus-visible:ring-teal-400 focus-visible:outline-none cursor-pointer"
                   aria-label="Copy email address"
                 >
                   {copied ? (
@@ -135,32 +129,53 @@ const SpecialFooter = () => {
             </div>
           </div>
 
-          <div className="lg:col-span-5 flex flex-col justify-between gap-4">
-            <div className="p-5 sm:p-6 rounded-3xl bg-zinc-900/50 backdrop-blur-xl border border-zinc-800 flex flex-col gap-5">
-              <div className="flex items-center justify-between border-b border-zinc-800/80 pb-3">
-                <span className="text-xs font-semibold uppercase text-teal-400 font-neue">
+          <div className="lg:col-span-5 flex flex-col justify-between">
+            <div className="p-5 sm:p-6 rounded-2xl bg-[#111114] border border-white/10 flex flex-col gap-4">
+              <div className="flex items-center justify-between border-b border-white/10 pb-3">
+                <span className="text-xs font-mono uppercase text-teal-400">
                   Direct Inquiries
                 </span>
-                <span className="text-xs text-zinc-400 font-neue">
+                <span className="text-xs font-mono text-zinc-400">
                   Dhaka, Bangladesh
                 </span>
               </div>
 
-              <div className="flex flex-col gap-3 font-neue">
-                <a
-                  href="mailto:mostafarafid45@gmail.com"
-                  className="flex items-center gap-3 text-sm sm:text-base text-zinc-200 hover:text-teal-400 transition-colors p-3 rounded-xl bg-zinc-800/40 hover:bg-zinc-800/80 border border-zinc-700/40"
-                >
-                  <FaEnvelope
-                    className="text-teal-400 text-base shrink-0"
-                    aria-hidden="true"
-                  />
-                  <span className="truncate">mostafarafid45@gmail.com</span>
-                </a>
+              <div className="flex flex-col gap-2.5 font-interTight">
+                <div className="flex items-center justify-between gap-3 p-3 rounded-xl bg-[#18181c] border border-white/10 hover:border-teal-400/35 transition-colors">
+                  <a
+                    href="mailto:mostafarafid45@gmail.com"
+                    className="flex items-center gap-3 text-sm text-zinc-200 hover:text-teal-400 transition-colors min-w-0"
+                  >
+                    <FaEnvelope
+                      className="text-teal-400 text-sm shrink-0"
+                      aria-hidden="true"
+                    />
+                    <span className="truncate">mostafarafid45@gmail.com</span>
+                  </a>
+                  <button
+                    type="button"
+                    onClick={handleCopyEmail}
+                    className="p-1.5 rounded-lg text-zinc-400 hover:text-white hover:bg-zinc-700/60 transition-colors shrink-0 cursor-pointer"
+                    aria-label="Copy email address"
+                    title={copied ? "Copied!" : "Copy email"}
+                  >
+                    {copied ? (
+                      <FaCheck
+                        className="text-emerald-400 text-sm"
+                        aria-hidden="true"
+                      />
+                    ) : (
+                      <FaCopy
+                        className="text-teal-400 text-sm"
+                        aria-hidden="true"
+                      />
+                    )}
+                  </button>
+                </div>
 
-                <div className="flex items-center gap-3 text-sm sm:text-base text-zinc-300 p-3 rounded-xl bg-zinc-800/20 border border-zinc-800">
+                <div className="flex items-center gap-3 text-sm text-zinc-300 p-3 rounded-xl bg-[#141418] border border-white/10">
                   <FaMapMarkerAlt
-                    className="text-teal-400 text-base shrink-0"
+                    className="text-teal-400 text-sm shrink-0"
                     aria-hidden="true"
                   />
                   <span>Dhaka, Bangladesh</span>
@@ -168,7 +183,7 @@ const SpecialFooter = () => {
               </div>
 
               <div className="flex flex-col gap-2">
-                <span className="text-xs font-semibold uppercase text-zinc-400 font-neue">
+                <span className="text-[11px] font-mono uppercase text-zinc-500">
                   Connect &amp; Socials
                 </span>
                 <div className="grid grid-cols-2 gap-3">
@@ -176,7 +191,7 @@ const SpecialFooter = () => {
                     href="https://github.com/Rafid46"
                     target="_blank"
                     rel="noreferrer"
-                    className="flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-zinc-800/60 hover:bg-zinc-700/80 text-zinc-200 hover:text-white border border-zinc-700 hover:border-teal-400/50 transition-all font-neue text-sm"
+                    className="flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-[#18181c] hover:bg-zinc-800 text-zinc-200 hover:text-white border border-white/10 hover:border-teal-400/50 transition-all font-mono text-xs uppercase"
                   >
                     <FaGithub className="text-base" aria-hidden="true" />
                     <span>GitHub</span>
@@ -186,7 +201,7 @@ const SpecialFooter = () => {
                     href="https://www.linkedin.com/in/mostafa-al-rafid-901b27262/"
                     target="_blank"
                     rel="noreferrer"
-                    className="flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-zinc-800/60 hover:bg-zinc-700/80 text-zinc-200 hover:text-white border border-zinc-700 hover:border-teal-400/50 transition-all font-neue text-sm"
+                    className="flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-[#18181c] hover:bg-zinc-800 text-zinc-200 hover:text-white border border-white/10 hover:border-teal-400/50 transition-all font-mono text-xs uppercase"
                   >
                     <FaLinkedinIn className="text-base" aria-hidden="true" />
                     <span>LinkedIn</span>
@@ -194,33 +209,25 @@ const SpecialFooter = () => {
                 </div>
               </div>
             </div>
-
-            <div className="p-3.5 rounded-2xl bg-zinc-900/30 border border-zinc-800/60 flex items-center justify-between text-xs text-zinc-400 font-neue">
-              <span>Frontend Web Engineer</span>
-              <span className="text-teal-400">
-                React • Next.js • TypeScript
-              </span>
-            </div>
           </div>
         </div>
 
-        <div className="pt-6 sm:pt-8 pb-3 flex flex-col items-center justify-center overflow-hidden select-none">
-          <p className="text-center text-[9vw] lg:text-[8.5vw] font-founderGrotest font-bold text-zinc-800/70 hover:text-zinc-600 transition-colors leading-none uppercase">
+        <div className="pt-5 pb-2 flex flex-col items-center justify-center overflow-hidden select-none">
+          <p className="text-center text-[8.5vw] lg:text-[7.5vw] font-archivo font-bold text-zinc-800/80 hover:text-zinc-600 transition-colors leading-none uppercase [letter-spacing:-0.04em]">
             MOSTAFA AL RAFID
           </p>
         </div>
 
-        <div className="pt-4 border-t border-zinc-800/60 flex flex-col sm:flex-row items-center justify-between gap-3 font-neue text-xs sm:text-sm text-zinc-400">
+        <div className="pt-4 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-3 font-mono text-xs text-zinc-400">
           <p>
             © {new Date().getFullYear()} Mostafa Al Rafid. All rights reserved.
           </p>
 
-          <p className="text-zinc-400">Engineered in Dhaka, Bangladesh</p>
-
           <Magnetic strength={0.3}>
             <button
+              type="button"
               onClick={scrollToTop}
-              className="flex items-center gap-2 px-4 py-2 rounded-full bg-zinc-900 hover:bg-zinc-800 text-zinc-300 hover:text-teal-400 border border-zinc-800 hover:border-teal-500/40 transition-colors focus-visible:ring-2 focus-visible:ring-teal-400 focus-visible:outline-none"
+              className="flex items-center gap-2 px-4 py-2 rounded-full bg-[#141418] hover:bg-zinc-800 text-zinc-300 hover:text-teal-400 border border-white/15 hover:border-teal-400/40 transition-colors cursor-pointer focus-visible:ring-2 focus-visible:ring-teal-400 focus-visible:outline-none"
               aria-label="Back to top"
             >
               <span>Back to top</span>

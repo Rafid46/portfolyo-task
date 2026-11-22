@@ -51,7 +51,7 @@ const FooterReveal = ({ children, footer }) => {
 
   return (
     <>
-      <div className="relative z-10 bg-black">{children}</div>
+      <div className="relative z-10 bg-[#08080a]">{children}</div>
 
       {/* Reserves the scroll distance the revealed footer occupies, and doubles
           as the #contact scroll anchor in both modes. */}

@@ -1,19 +1,16 @@
-/* eslint-disable react/prop-types */
 import { useLayoutEffect, useRef, useState } from "react";
 import { gsap, prefersReducedMotion } from "../../lib/smoothScroll";
-
-/* ---------------------------------------------------------------- visuals */
 
 const Panel = ({ children, label }) => (
   <div
     aria-hidden="true"
-    className="relative w-full rounded-3xl border border-zinc-800 bg-zinc-900/50 backdrop-blur-xl p-5 sm:p-6 shadow-2xl shadow-black/60 overflow-hidden"
+    className="relative w-full rounded-2xl border border-white/15 bg-[#111114] p-5 sm:p-6 shadow-2xl overflow-hidden"
   >
-    <div className="flex items-center gap-2 mb-5">
+    <div className="flex items-center gap-2 mb-5 pb-3 border-b border-white/10">
       <span className="w-2.5 h-2.5 rounded-full bg-zinc-700" />
       <span className="w-2.5 h-2.5 rounded-full bg-zinc-700" />
-      <span className="w-2.5 h-2.5 rounded-full bg-teal-400/70" />
-      <span className="ml-2 text-[11px] font-mono text-zinc-500 tracking-wide">
+      <span className="w-2.5 h-2.5 rounded-full bg-teal-400/80" />
+      <span className="ml-2 text-[11px] font-mono text-zinc-400 [letter-spacing:0.06em]">
         {label}
       </span>
     </div>
@@ -23,7 +20,7 @@ const Panel = ({ children, label }) => (
 
 const UnderstandVisual = () => (
   <Panel label="brief.md">
-    <div className="space-y-3 font-neue">
+    <div className="space-y-3 font-interTight">
       {[
         ["Who is this actually for?", true],
         ["What breaks at 10x the data?", true],
@@ -32,16 +29,16 @@ const UnderstandVisual = () => (
       ].map(([line, done]) => (
         <div key={line} className="flex items-start gap-3">
           <span
-            className={`mt-0.5 w-4 h-4 shrink-0 rounded border flex items-center justify-center text-[9px] ${
+            className={`mt-0.5 w-4 h-4 shrink-0 rounded border flex items-center justify-center text-[9px] font-mono ${
               done
-                ? "bg-teal-400 border-teal-400 text-black"
+                ? "bg-teal-400 border-teal-400 text-[#08080a] font-bold"
                 : "border-zinc-600 text-transparent"
             }`}
           >
             OK
           </span>
           <span
-            className={`text-sm ${done ? "text-zinc-300" : "text-zinc-500"}`}
+            className={`text-sm ${done ? "text-zinc-200" : "text-zinc-500"}`}
           >
             {line}
           </span>
@@ -59,7 +56,7 @@ const ArchitectVisual = () => (
         <div>├─ &lt;Layout /&gt;</div>
         <div className="pl-4">
           <div>│ ├─ &lt;Nav /&gt;</div>
-          <div className="text-violet-400">│ └─ &lt;Outlet /&gt;</div>
+          <div className="text-cyan-300">│ └─ &lt;Outlet /&gt;</div>
         </div>
         <div>├─ hooks/</div>
         <div className="pl-4 text-zinc-500">
@@ -67,7 +64,7 @@ const ArchitectVisual = () => (
           <div>│ └─ useReveal()</div>
         </div>
         <div>
-          └─ store/ <span className="text-zinc-600">zustand</span>
+          └─ store/ <span className="text-zinc-500">zustand</span>
         </div>
       </div>
     </div>
@@ -77,10 +74,10 @@ const ArchitectVisual = () => (
 const BuildVisual = () => (
   <Panel label="Section.tsx">
     <pre className="font-mono text-[11px] sm:text-xs leading-6 text-zinc-400 overflow-hidden whitespace-pre-wrap">
-      <span className="text-violet-400">export function</span>{" "}
+      <span className="text-cyan-300">export function</span>{" "}
       <span className="text-teal-300">Section</span>({"{ items }"}) {"{"}
       {"\n  "}
-      <span className="text-violet-400">return</span> (
+      <span className="text-cyan-300">return</span> (
       {"\n    "}&lt;<span className="text-teal-300">ul</span>{" "}
       <span className="text-zinc-500">className</span>=
       <span className="text-emerald-400">&quot;grid gap-4&quot;</span>&gt;
@@ -100,7 +97,7 @@ const BuildVisual = () => (
 
 const RefineVisual = () => (
   <Panel label="lighthouse">
-    <div className="grid grid-cols-2 gap-4 font-neue">
+    <div className="grid grid-cols-2 gap-4 font-interTight">
       {[
         ["Performance", 98],
         ["Accessibility", 100],
@@ -109,13 +106,13 @@ const RefineVisual = () => (
       ].map(([label, score]) => (
         <div
           key={label}
-          className="rounded-2xl bg-zinc-800/40 border border-zinc-700/50 p-4"
+          className="rounded-xl bg-[#18181c] border border-white/10 p-4"
         >
-          <p className="text-2xl font-bold text-teal-400 font-founderGrotest">
+          <p className="text-2xl font-bold text-teal-400 font-archivo">
             {score}
           </p>
           <p className="text-[11px] text-zinc-400 mt-0.5">{label}</p>
-          <div className="mt-2 h-1 rounded-full bg-zinc-700 overflow-hidden">
+          <div className="mt-2 h-1 rounded-full bg-zinc-800 overflow-hidden">
             <div
               className="h-full rounded-full bg-teal-400"
               style={{ width: `${score}%` }}
@@ -126,8 +123,6 @@ const RefineVisual = () => (
     </div>
   </Panel>
 );
-
-/* ------------------------------------------------------------------ steps */
 
 const steps = [
   {
@@ -164,8 +159,6 @@ const steps = [
   },
 ];
 
-/* -------------------------------------------------------------- component */
-
 const ProcessScroll = () => {
   const sectionRef = useRef(null);
   const stageRef = useRef(null);
@@ -184,21 +177,18 @@ const ProcessScroll = () => {
       const total = panels.length;
       if (!total) return;
 
-      // Panel 0 starts visible; the rest wait their turn.
       gsap.set(panels, { autoAlpha: 0, y: 48 });
       gsap.set(panels[0], { autoAlpha: 1, y: 0 });
       gsap.set(dots, { backgroundColor: "#3f3f46", scale: 0.6, opacity: 0.5 });
       gsap.set(dots[0], { backgroundColor: "#2dd4bf", scale: 1, opacity: 1 });
 
-      // Outgoing panel clears before the incoming one arrives, so the two
-      // never sit on top of each other at readable opacity.
-      const span = total - 1 + 0.5; // trailing dwell on the final step
+      const span = total - 1 + 0.5;
 
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: section,
           start: "top top",
-          end: () => `+=${total * 90}%`,
+          end: () => `+=${total * 80}%`,
           pin: stage,
           pinSpacing: true,
           scrub: 0.8,
@@ -245,7 +235,6 @@ const ProcessScroll = () => {
         }
       });
 
-      // Progress rail runs the full length of the pinned scroll.
       if (railFillRef.current) {
         tl.fromTo(
           railFillRef.current,
@@ -254,9 +243,6 @@ const ProcessScroll = () => {
           0,
         );
       }
-
-      // The rail tween above runs to `span`, which also holds the final panel
-      // on screen for the trailing dwell before the section unpins.
     }, section);
 
     return () => ctx.revert();
@@ -266,8 +252,8 @@ const ProcessScroll = () => {
     <section
       ref={sectionRef}
       id="process"
-      aria-label="How I work"
-      className="relative w-full"
+      aria-label="Engineering Process"
+      className="relative w-full bg-[#08080a] border-y border-white/10"
     >
       <div
         ref={stageRef}
@@ -280,21 +266,20 @@ const ProcessScroll = () => {
         <div className="max-w-7xl mx-auto w-full px-5 sm:px-8">
           <div className="flex items-end justify-between gap-6 mb-10 sm:mb-14">
             <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-teal-400 font-neue mb-3">
-                The Process
+              <p className="text-xs font-mono uppercase [letter-spacing:0.16em] text-teal-400 mb-3">
+                04 — Process
               </p>
-              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-brolimo font-semibold text-white">
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-archivo font-semibold text-[#f4f4f0]">
                 How a build actually goes
                 <span className="text-teal-400">.</span>
               </h2>
             </div>
-            <span className="hidden sm:block text-xs font-neue text-zinc-500 shrink-0 pb-2">
+            <span className="hidden sm:block text-xs font-mono uppercase text-zinc-500 shrink-0 pb-2">
               Scroll to advance
             </span>
           </div>
 
           <div className="flex gap-6 sm:gap-10">
-            {/* progress rail */}
             <div
               aria-hidden="true"
               className="hidden sm:flex flex-col items-center shrink-0 pt-2"
@@ -316,8 +301,6 @@ const ProcessScroll = () => {
               </div>
             </div>
 
-            {/* Stacked panels: CSS grid stacking sizes the box to the tallest
-                panel, so no absolute positioning or hard-coded height. */}
             <div className={reduced ? "flex-1 space-y-16" : "flex-1 grid"}>
               {steps.map((step, i) => {
                 const { Visual } = step;
@@ -330,18 +313,18 @@ const ProcessScroll = () => {
                   >
                     <div>
                       <div className="flex items-baseline gap-4 mb-4">
-                        <span className="text-5xl sm:text-6xl font-founderGrotest font-bold text-zinc-800 leading-none">
+                        <span className="text-5xl sm:text-6xl font-archivo font-bold text-zinc-800 leading-none">
                           {String(i + 1).padStart(2, "0")}
                         </span>
-                        <h3 className="text-2xl sm:text-3xl lg:text-4xl font-founderGrotest font-bold text-white">
+                        <h3 className="text-2xl sm:text-3xl lg:text-4xl font-archivo font-semibold text-[#f4f4f0]">
                           {step.title}
                         </h3>
                       </div>
 
-                      <p className="text-lg sm:text-xl text-teal-400 font-neue mb-3">
+                      <p className="text-lg sm:text-xl text-teal-400 font-interTight font-medium mb-3">
                         {step.lede}
                       </p>
-                      <p className="text-sm sm:text-base text-zinc-400 font-neue leading-relaxed max-w-md">
+                      <p className="text-sm sm:text-base text-zinc-400 font-interTight leading-relaxed max-w-md">
                         {step.body}
                       </p>
 
@@ -349,7 +332,7 @@ const ProcessScroll = () => {
                         {step.tags.map((tag) => (
                           <span
                             key={tag}
-                            className="text-xs font-neue text-zinc-300 px-3 py-1.5 rounded-full bg-zinc-900/70 border border-zinc-800"
+                            className="text-xs font-mono text-zinc-300 px-3 py-1.5 rounded-md bg-[#111114] border border-white/10"
                           >
                             {tag}
                           </span>

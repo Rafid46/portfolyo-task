@@ -15,32 +15,37 @@ const MainLayout = () => {
   }, []);
 
   return (
-    <div id="scroll-container" className="min-h-screen text-white relative">
+    <div
+      id="scroll-container"
+      className="min-h-screen bg-[#08080a] text-[#f4f4f0] relative"
+    >
       <div className="relative z-10">
         <div className="pt-0">
           <Outlet />
         </div>
-        <div className="hidden lg:block fixed inset-0 pointer-events-none z-40 w-screen h-screen">
-          <GlowCursor
-            color="#67E8F9"
-            secondaryColor="#A78BFA"
-            trailLength={14}
-            trailWidth={8}
-            trailTaper={0.8}
-            followSpeed={0.5}
-            glowIntensity={1.9}
-            glowSpread={1.2}
-            hotspot={0.65}
-            brightness={1.25}
-            opacity={1}
-            pulseSpeed={1.6}
-            noiseStrength={0.035}
-            idleFade
-            idleTimeout={700}
-            fadeDuration={100}
-            blendMode="screen"
-          />
-        </div>
+        {!isLoading && (
+          <div className="hidden lg:block fixed inset-0 pointer-events-none z-40 w-screen h-screen">
+            <GlowCursor
+              color="#2dd4bf"
+              secondaryColor="#67e8f9"
+              trailLength={12}
+              trailWidth={6}
+              trailTaper={0.8}
+              followSpeed={0.5}
+              glowIntensity={1.4}
+              glowSpread={1.0}
+              hotspot={0.55}
+              brightness={1.1}
+              opacity={0.75}
+              pulseSpeed={1.4}
+              noiseStrength={0.03}
+              idleFade
+              idleTimeout={650}
+              fadeDuration={150}
+              blendMode="screen"
+            />
+          </div>
+        )}
         {isLoading && <Preloader onComplete={() => setIsLoading(false)} />}
       </div>
     </div>

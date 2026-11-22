@@ -1,93 +1,123 @@
-import InfiniteSpiral from "../InfiniteSpiral";
+import { IconCloud } from "../../registry/magicui/icon-cloud";
 
-const skills = [
+const userSkills = [
   "typescript",
   "javascript",
   "react",
+  "nextdotjs",
+  "tailwindcss",
   "html5",
   "css3",
   "nodedotjs",
   "express",
+  "mongodb",
   "firebase",
-  "vercel",
   "git",
-  "jira",
   "github",
   "vscode",
+  "vercel",
+  "jira",
   "antdesign",
-  "mongodb",
-  "nextdotjs",
-  "tailwindcss",
-  "shadcnui"
+  "shadcnui",
+  "figma",
+  "redux",
+  "postman",
 ];
 
-const images = skills.map((slug) => {
-  let src = `https://cdn.simpleicons.org/${slug}/white`;
-  if (slug === 'css3') src = `https://cdn.simpleicons.org/css/white`;
-  if (slug === 'vscode') src = `https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/vscode/vscode-original.svg`;
-  
-  return {
-    src,
-    alt: slug
-  };
+const images = userSkills.map((slug) => {
+  if (slug === "css3") return "https://cdn.simpleicons.org/css/css";
+  if (slug === "vscode") {
+    return "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/vscode/vscode-original.svg";
+  }
+  if (["nextdotjs", "express", "github", "vercel", "shadcnui"].includes(slug)) {
+    return `https://cdn.simpleicons.org/${slug}/white`;
+  }
+  return `https://cdn.simpleicons.org/${slug}/${slug}`;
 });
 
-export default function NewSkill() {
-  const skillCategories = [
-    {
-      title: "Frontend & UI",
-      items: ["React.js", "Next.js", "TypeScript", "JavaScript", "HTML5", "CSS3", "Tailwind CSS", "Shadcn UI", "Ant Design"],
-    },
-    {
-      title: "Backend & Database",
-      items: ["Node.js", "Express.js", "MongoDB", "Firebase"],
-    },
-    {
-      title: "Tools & Workflow",
-      items: ["Git", "GitHub", "VS Code", "Vercel", "Jira"],
-    },
-  ];
+const skillCategories = [
+  {
+    index: "01",
+    title: "Frontend & UI",
+    items: [
+      "React.js",
+      "Next.js",
+      "TypeScript",
+      "JavaScript",
+      "HTML5",
+      "CSS3",
+      "Tailwind CSS",
+      "Shadcn UI",
+      "Ant Design",
+    ],
+  },
+  {
+    index: "02",
+    title: "State, Motion & Tooling",
+    items: [
+      "Zustand",
+      "TanStack Query",
+      "Redux",
+      "GSAP",
+      "Framer Motion",
+      "Figma",
+      "Git & GitHub",
+      "Vercel",
+    ],
+  },
+  {
+    index: "03",
+    title: "Backend & Database",
+    items: [
+      "Node.js",
+      "Express.js",
+      "MongoDB",
+      "Firebase",
+      "Postgres",
+      "Prisma",
+    ],
+  },
+];
 
+export function IconCloudDemo() {
   return (
-    <div className="w-full flex flex-col gap-10">
-      <div className="w-full relative overflow-hidden h-[380px] sm:h-[480px] lg:h-[520px] rounded-2xl bg-zinc-950/40 border border-zinc-800/60 backdrop-blur-sm">
-        <InfiniteSpiral
-          items={images}
-          animationMode="auto"
-          speed={0.55}
-          radius={170}
-          cardWidth={100}
-          cardHeight={100}
-          verticalSpacing={60}
-          perspective={1000}
-          cardRadius={10}
-          centerScale={1.2}
-          edgeBlur={6}
-          cardsPerTurn={7}
-          pauseOnHover={false}
-          direction="up"
-          rotation={0}
-          cardTilt={0}
-          edgeFade={0.3}
-          imageFit="cover"
-          grayscale={1}
-        />
+    <div className="w-full grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+      <div className="lg:col-span-5 relative rounded-2xl border border-white/10 bg-[#111114] p-4 sm:p-6 flex flex-col justify-between overflow-hidden">
+        <div className="flex items-center justify-between text-xs font-mono uppercase text-zinc-400">
+          <span className="text-teal-400">Interactive Radar</span>
+          <span>Drag · Click</span>
+        </div>
+
+        <div className="w-full flex items-center justify-center py-4 min-h-[340px] sm:min-h-[420px]">
+          <IconCloud images={images} />
+        </div>
+
+        <div className="pt-3 border-t border-white/10 flex items-center justify-between text-[11px] font-mono text-zinc-500 uppercase">
+          <span>21 Core Technologies</span>
+          <span>WebGL / Canvas</span>
+        </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+      <div className="lg:col-span-7 flex flex-col gap-4 justify-between">
         {skillCategories.map((category) => (
           <div
             key={category.title}
-            className="p-5 rounded-2xl bg-zinc-900/40 border border-zinc-800/80 backdrop-blur-sm hover:border-teal-500/30 transition-colors"
+            className="flex-1 p-5 sm:p-6 rounded-2xl bg-[#111114] border border-white/10 hover:border-teal-400/35 transition-colors flex flex-col justify-between gap-4"
           >
-            <h3 className="text-sm font-semibold text-teal-400 font-neue uppercase mb-3.5">
-              {category.title}
-            </h3>
+            <div className="flex items-center justify-between border-b border-white/10 pb-3">
+              <h3 className="font-archivo text-lg sm:text-xl font-semibold text-[#f4f4f0]">
+                {category.title}
+              </h3>
+              <span className="font-mono text-xs text-teal-400">
+                [{category.index}]
+              </span>
+            </div>
+
             <div className="flex flex-wrap gap-2">
               {category.items.map((item) => (
                 <span
                   key={item}
-                  className="px-3 py-1.5 rounded-lg bg-zinc-800/50 border border-zinc-700/60 text-xs sm:text-sm text-gray-200 hover:text-white hover:border-teal-400/50 transition-colors"
+                  className="px-3 py-1.5 rounded-md bg-[#18181c] border border-white/10 text-xs sm:text-sm font-interTight text-zinc-200 hover:text-teal-300 hover:border-teal-400/50 transition-colors"
                 >
                   {item}
                 </span>
@@ -99,3 +129,5 @@ export default function NewSkill() {
     </div>
   );
 }
+
+export default IconCloudDemo;

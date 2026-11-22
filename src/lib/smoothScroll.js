@@ -101,4 +101,16 @@ export function scrollToTop() {
   });
 }
 
+export function stopSmoothScroll() {
+  if (lenis) {
+    lenis.stop();
+  }
+}
+
+export function startSmoothScroll() {
+  if (lenis) {
+    lenis.start();
+  }
+}
+
 export { gsap, ScrollTrigger };

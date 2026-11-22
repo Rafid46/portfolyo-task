@@ -1,9 +1,10 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { scrollToId } from "../../lib/smoothScroll";
 import diffImg from "../../assets/diff.png";
 import Mascot from "../Mascot/Mascot";
 import TechText from "./TechText";
 import GooeyNav from "./GooeyNav";
+import Magnetic from "../motion/Magnetic";
 import "./contactButton.css";
 
 const NAV_ITEMS = [
@@ -34,6 +35,8 @@ const EditorialHero = () => {
   const [scrollY, setScrollY] = useState(0);
   const isNavClickRef = useRef(false);
   const navClickTimerRef = useRef(null);
+
+  const isDark = scrollY > 280;
 
   const handleNavChange = (index, item) => {
     setActiveNavIdx(index);
@@ -103,6 +106,7 @@ const EditorialHero = () => {
     setLoaded(true);
     const start = performance.now();
     const duration = 1400;
+    let rafId = 0;
 
     const animateCounters = (now) => {
       const elapsed = now - start;
@@ -111,15 +115,16 @@ const EditorialHero = () => {
       setCountExp(Math.floor(ease * 2));
       setCountProjects(Math.floor(ease * 10));
       if (progress < 1) {
-        requestAnimationFrame(animateCounters);
+        rafId = requestAnimationFrame(animateCounters);
       } else {
         setCountExp(2);
         setCountProjects(10);
       }
     };
-    requestAnimationFrame(animateCounters);
+    rafId = requestAnimationFrame(animateCounters);
 
     return () => {
+      cancelAnimationFrame(rafId);
       window.removeEventListener("scroll", handleScroll);
       if (navClickTimerRef.current) clearTimeout(navClickTimerRef.current);
     };
@@ -130,11 +135,23 @@ const EditorialHero = () => {
       id="home"
       aria-label="Hero"
       className={`relative w-full overflow-hidden min-h-[calc(var(--u)*938)] pb-[calc(var(--u)*40)] md:pb-0 transition-colors duration-700 ease-out ${
-        scrollY > 280 ? "bg-[#0b0b0b]" : "bg-[#dadada]"
+        isDark ? "bg-[#08080a]" : "bg-[#dadada]"
       }`}
     >
       <div
-        className={`absolute left-0 right-0 bottom-0 h-[calc(var(--u)*360)] pointer-events-none bg-gradient-to-b from-transparent via-black/60 to-black transition-opacity duration-700 ease-out z-10 ${
+        aria-hidden="true"
+        className={`pointer-events-none absolute inset-0 transition-opacity duration-700 ${
+          isDark ? "opacity-25" : "opacity-[0.06]"
+        }`}
+        style={{
+          backgroundImage:
+            "linear-gradient(to right, rgba(17,17,17,0.35) 1px, transparent 1px), linear-gradient(to bottom, rgba(17,17,17,0.35) 1px, transparent 1px)",
+          backgroundSize: "72px 72px",
+        }}
+      />
+
+      <div
+        className={`absolute left-0 right-0 bottom-0 h-[calc(var(--u)*360)] pointer-events-none bg-gradient-to-b from-transparent via-black/60 to-[#08080a] transition-opacity duration-700 ease-out z-10 ${
           scrollY > 160
             ? "opacity-100"
             : scrollY > 60
@@ -142,16 +159,15 @@ const EditorialHero = () => {
               : "opacity-0"
         }`}
       />
-      <header
-        className={`fixed z-50 transition-all duration-700 ease-out left-4 md:left-[calc(var(--u)*57)] top-4 md:top-[calc(var(--u)*40)] `}
-      >
+
+      <header className="fixed z-50 transition-all duration-700 ease-out left-4 md:left-[calc(var(--u)*57)] top-4 md:top-[calc(var(--u)*40)]">
         <div className="rounded-full p-1">
           <GooeyNav
             items={NAV_ITEMS}
             initialActiveIndex={0}
             activeIndex={activeNavIdx}
             theme="dark"
-            color={scrollY > 280 ? "#ffffffff" : "#383737ff"}
+            color={isDark ? "#ffffffff" : "#383737ff"}
             size="lg"
             frame={false}
             particleCount={24}
@@ -165,15 +181,27 @@ const EditorialHero = () => {
           />
         </div>
       </header>
+
       <div className="hidden md:block relative w-full h-[calc(var(--u)*938)]">
+        <div
+          className={`absolute z-20 left-1/2 -translate-x-1/2 top-[calc(var(--u)*54)] flex items-center gap-4 text-[calc(var(--u)*11)] font-mono uppercase transition-all duration-700 ${
+            loaded ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-2"
+          } ${isDark ? "text-zinc-400" : "text-[#444444]"}`}
+        >
+          <span>Available .</span>
+          <span>Dhaka, BD</span>
+          <span className="opacity-40">/</span>
+          <span>[2026]</span>
+        </div>
+
         <header className="w-full">
           <div className="flex items-center">
-            <div className={`z-30 text-[calc(var(--u)*13.5)] text-[#333333]`}>
-              Dhaka, Bangladesh · 2026
-            </div>
-
             <div
-              className={`absolute z-30 transition-all duration-700 ease-out left-[calc(var(--u)*1195)] top-[calc(var(--u)*46)] ${loaded ? "translate-y-0 opacity-100" : "translate-y-[calc(var(--u)*14)] opacity-0"}`}
+              className={`absolute z-30 transition-all duration-700 ease-out left-[calc(var(--u)*1195)] top-[calc(var(--u)*46)] ${
+                loaded
+                  ? "translate-y-0 opacity-100"
+                  : "translate-y-[calc(var(--u)*14)] opacity-0"
+              }`}
             >
               <a
                 href="#contact"
@@ -378,7 +406,9 @@ const EditorialHero = () => {
           </div>
           <div className="overflow-hidden mt-1">
             <h1
-              className={`font-archivo uppercase leading-[0.86] text-[calc(var(--u)*74)] text-[#111111] [font-stretch:104%] [font-weight:640] [letter-spacing:-0.06em] transition-transform duration-1000 delay-[110ms] ${loaded ? "translate-y-0" : "translate-y-full"}`}
+              className={`font-archivo uppercase leading-[0.86] text-[calc(var(--u)*74)] [font-stretch:104%] [font-weight:640] [letter-spacing:-0.06em] transition-all duration-1000 delay-[110ms] ${
+                loaded ? "translate-y-0" : "translate-y-full"
+              } ${isDark ? "text-[#f4f4f0]" : "text-[#111111]"}`}
             >
               DEVELOPER
             </h1>
@@ -386,36 +416,112 @@ const EditorialHero = () => {
         </div>
 
         <aside
-          className={`absolute z-20 flex flex-col items-start left-[calc(var(--u)*57)] top-[calc(var(--u)*458)] transition-all duration-700 ease-out delay-[240ms] ${loaded ? "translate-y-0 opacity-100" : "translate-y-[calc(var(--u)*14)] opacity-0"}`}
+          className={`absolute z-20 flex flex-col items-start left-[calc(var(--u)*57)] top-[calc(var(--u)*458)] transition-all duration-700 ease-out delay-[240ms] ${
+            loaded
+              ? "translate-y-0 opacity-100"
+              : "translate-y-[calc(var(--u)*14)] opacity-0"
+          }`}
         >
-          <span className="font-interTight font-semibold flex items-center gap-1.5 uppercase text-[calc(var(--u)*13)] text-[#111111] [letter-spacing:0.04em]">
-            <span className="rounded-full bg-[#111111] w-[calc(var(--u)*6)] h-[calc(var(--u)*6)]" />
-            (ABOUT)
+          <span
+            className={`font-mono font-semibold flex items-center gap-1.5 uppercase text-[calc(var(--u)*12)] [letter-spacing:0.06em] transition-colors duration-500 ${
+              isDark ? "text-[#f4f4f0]" : "text-[#111111]"
+            }`}
+          >
+            <span
+              className={`rounded-full w-[calc(var(--u)*6)] h-[calc(var(--u)*6)] ${
+                isDark ? "bg-teal-400" : "bg-[#111111]"
+              }`}
+            />
+            [ ABOUT ]
           </span>
 
-          <p className="font-interTight font-normal leading-[1.45] mt-3 text-[#2a2a2a] text-[calc(var(--u)*14)] max-w-[calc(var(--u)*320)]">
-            Engineering responsive, pixel-perfect web interfaces with React,
-            Next.js, and TypeScript. Focused on scalable architecture and fluid
-            UX.
+          <p
+            className={`font-interTight font-normal leading-[1.45] mt-3 text-[calc(var(--u)*14)] max-w-[calc(var(--u)*320)] transition-colors duration-500 ${
+              isDark ? "text-zinc-300" : "text-[#2a2a2a]"
+            }`}
+          >
+            Frontend Developer specializing primarily in Next.js and React.
+            Engineering responsive, high-performance web applications with
+            scalable architecture and fluid UX.
           </p>
 
-          <button
-            type="button"
-            onClick={() => scrollToId("projects")}
-            className="flex items-center justify-between gap-4 pl-5 pr-2 bg-[#111111] text-white rounded-[18px] font-interTight font-medium transition-transform duration-200 hover:-translate-y-px cursor-pointer mt-[calc(var(--u)*38)]  h-[calc(var(--u)*44)] text-[calc(var(--u)*14)] shadow-[0_calc(var(--u)*4)_calc(var(--u)*12)_rgba(0,0,0,0.12)]"
+          <div
+            className={`flex items-center gap-2 mt-3.5 transition-colors duration-500 ${
+              isDark ? "text-zinc-400" : "text-[#444444]"
+            }`}
           >
-            Explore Projects
-            <div className="bg-zinc-800 p-4 pb-5 rounded-[12px] flex items-center gap-2">
-              <div className="rounded-full w-[4px] h-[8px] bg-white"></div>
-              <div className="rounded-full w-[4px] h-[8px] bg-white"></div>
-            </div>
-          </button>
+            {TECH_MARKS.map((mark) => (
+              <span
+                key={mark.name}
+                title={mark.name}
+                className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full border text-[calc(var(--u)*10)] font-mono ${
+                  isDark
+                    ? "border-white/15 bg-white/5 text-zinc-300"
+                    : "border-[#111111]/15 bg-white/40 text-[#222222]"
+                }`}
+              >
+                <svg
+                  viewBox="0 0 14 14"
+                  fill="currentColor"
+                  className="w-[calc(var(--u)*10)] h-[calc(var(--u)*10)]"
+                  aria-hidden="true"
+                >
+                  <path d={mark.glyph} />
+                </svg>
+                <span>{mark.name}</span>
+              </span>
+            ))}
+          </div>
+
+          <div className="mt-[calc(var(--u)*26)]">
+            <Magnetic strength={0.3}>
+              <button
+                type="button"
+                onClick={() => scrollToId("projects")}
+                className="flex items-center justify-between gap-4 pl-5 pr-2 bg-[#111111] hover:bg-[#1a1a1f] text-white rounded-[18px] font-interTight font-medium transition-transform duration-200 hover:-translate-y-px cursor-pointer h-[calc(var(--u)*44)] text-[calc(var(--u)*14)] shadow-[0_calc(var(--u)*4)_calc(var(--u)*12)_rgba(0,0,0,0.12)]"
+              >
+                <span>Explore Projects</span>
+                <div className="bg-zinc-800 px-3 py-2.5 rounded-[12px] flex items-center gap-1.5">
+                  <div className="rounded-full w-[4px] h-[8px] bg-white" />
+                  <div className="rounded-full w-[4px] h-[8px] bg-white" />
+                </div>
+              </button>
+            </Magnetic>
+          </div>
         </aside>
 
         <div
-          className={`absolute z-20 flex flex-col items-center left-1/2 -translate-x-1/2 top-[calc(var(--u)*165)] transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] delay-[200ms] ${loaded ? "translate-y-0 opacity-100" : "translate-y-[calc(var(--u)*20)] opacity-0"}`}
+          className={`group absolute z-20 flex flex-col items-center left-1/2 -translate-x-1/2 top-[calc(var(--u)*165)] transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] delay-[200ms] ${
+            loaded
+              ? "translate-y-0 opacity-100"
+              : "translate-y-[calc(var(--u)*20)] opacity-0"
+          }`}
         >
-          <div className="rounded-3xl border border-[#111111]/15 bg-white/40 backdrop-blur-md p-3 shadow-xl hover:shadow-2xl transition-all shadow-[0_calc(var(--u)*16)_calc(var(--u)*40)_rgba(0,0,0,0.08)]">
+          <div className="relative rounded-3xl border border-[#111111]/15 bg-white/45 backdrop-blur-[8px] p-3 shadow-xl hover:shadow-2xl transition-shadow shadow-[0_calc(var(--u)*16)_calc(var(--u)*40)_rgba(0,0,0,0.08)]">
+            <span
+              aria-hidden="true"
+              className="absolute -top-2 -left-2 text-[calc(var(--u)*11)] font-mono text-[#111111]/45"
+            >
+              +
+            </span>
+            <span
+              aria-hidden="true"
+              className="absolute -top-2 -right-2 text-[calc(var(--u)*11)] font-mono text-[#111111]/45"
+            >
+              +
+            </span>
+            <span
+              aria-hidden="true"
+              className="absolute -bottom-2 -left-2 text-[calc(var(--u)*11)] font-mono text-[#111111]/45"
+            >
+              +
+            </span>
+            <span
+              aria-hidden="true"
+              className="absolute -bottom-2 -right-2 text-[calc(var(--u)*11)] font-mono text-[#111111]/45"
+            >
+              +
+            </span>
             <Mascot
               directions="/mascots/rafid-directions.webp"
               reactions="/mascots/rafid-reactions.webp"
@@ -425,22 +531,33 @@ const EditorialHero = () => {
             />
           </div>
 
-          <div className="z-20 flex items-center justify-center w-fit -mt-14 transition-all duration-700">
+          <div className="z-20 flex flex-col items-center justify-center w-fit -mt-14 transition-all duration-700">
             <span className="!font-bricolage font-bold text-[#0F42C0] text-[calc(var(--u)*59)] [font-stretch:120%] text-center whitespace-nowrap">
               Mostafa Al Rafid
+            </span>
+            <span
+              className={`text-[calc(var(--u)*10)] font-mono uppercase opacity-0 group-hover:opacity-100 transition-opacity duration-300 mt-1 ${
+                isDark ? "text-zinc-400" : "text-[#444444]"
+              }`}
+            >
+              [ Tap to interact ]
             </span>
           </div>
         </div>
 
         <div
-          className={`absolute z-20 flex gap-2 left-[calc(var(--u)*57)] top-[calc(var(--u)*693)] w-[calc(var(--u)*341)] h-[calc(var(--u)*208)] bg-[#cdcdcd] rounded-[calc(var(--u)*14)] p-[calc(var(--u)*8)] transition-all duration-700 ease-out delay-[360ms] ${loaded ? "translate-y-0 opacity-100" : "translate-y-[calc(var(--u)*14)] opacity-0"}`}
+          className={`absolute z-20 flex gap-2 left-[calc(var(--u)*57)] top-[calc(var(--u)*693)] w-[calc(var(--u)*341)] h-[calc(var(--u)*208)] bg-[#cdcdcd] rounded-[calc(var(--u)*14)] p-[calc(var(--u)*8)] transition-all duration-700 ease-out delay-[360ms] ${
+            loaded
+              ? "translate-y-0 opacity-100"
+              : "translate-y-[calc(var(--u)*14)] opacity-0"
+          }`}
         >
           <div className="flex-1 bg-[#161616] text-white flex flex-col justify-between rounded-[calc(var(--u)*10)] p-[calc(var(--u)*12)]">
             <div>
               <div className="font-archivo font-bold text-white leading-none text-[calc(var(--u)*26)]">
                 {countExp}+ Years
               </div>
-              <div className="font-interTight font-medium text-[#999999] mt-0.5 text-[calc(var(--u)*11)]">
+              <div className="font-interTight font-medium text-[#999999] mt-1 text-[calc(var(--u)*11)]">
                 Frontend Experience
               </div>
             </div>
@@ -450,34 +567,54 @@ const EditorialHero = () => {
               onClick={() => scrollToId("experience")}
               className="w-full bg-white text-[#111111] flex items-center justify-center font-interTight font-semibold hover:bg-[#eaeaea] transition-colors cursor-pointer rounded-[calc(var(--u)*6)] py-[calc(var(--u)*6)] text-[calc(var(--u)*11)]"
             >
-              View experience ↗
+              Experience ↗
             </button>
           </div>
         </div>
 
-        <div
+        <button
+          type="button"
           onMouseEnter={() => setQHovered(true)}
           onMouseLeave={() => setQHovered(false)}
           onClick={() => scrollToId("projects")}
-          className={`absolute z-20 flex flex-col cursor-pointer group left-[calc(var(--u)*1216)] top-[calc(var(--u)*442)] w-[calc(var(--u)*168)] transition-all duration-700 ease-out delay-[320ms] ${loaded ? "translate-y-0 opacity-100" : "translate-y-[calc(var(--u)*14)] opacity-0"}`}
+          aria-label="Jump to Diff Editor featured project"
+          className={`absolute z-20 flex flex-col text-left cursor-pointer group left-[calc(var(--u)*1216)] top-[calc(var(--u)*442)] w-[calc(var(--u)*168)] transition-all duration-700 ease-out delay-[320ms] bg-transparent border-none p-0 ${
+            loaded
+              ? "translate-y-0 opacity-100"
+              : "translate-y-[calc(var(--u)*14)] opacity-0"
+          }`}
         >
-          <div className="flex items-center justify-between text-[#111111] font-interTight font-medium mb-1.5 text-[calc(var(--u)*11)]">
+          <div
+            className={`flex items-center justify-between w-full font-mono mb-1.5 text-[calc(var(--u)*11)] transition-colors duration-500 ${
+              isDark ? "text-zinc-300" : "text-[#111111]"
+            }`}
+          >
             <span>Featured</span>
-            <span className="text-[#555555]">[2025]</span>
+            <span className={isDark ? "text-teal-400" : "text-[#555555]"}>
+              [2025]
+            </span>
           </div>
-          <div className="font-archivo font-bold text-[#111111] uppercase mb-2 leading-none text-[calc(var(--u)*14)]">
+          <div
+            className={`font-archivo font-bold uppercase mb-2 leading-none text-[calc(var(--u)*14)] transition-colors duration-500 ${
+              isDark ? "text-[#f4f4f0]" : "text-[#111111]"
+            }`}
+          >
             Diff Editor
           </div>
 
-          <div className="relative overflow-hidden w-[calc(var(--u)*168)] h-[calc(var(--u)*196)] rounded-[calc(var(--u)*12)] bg-[#222222]">
+          <div className="relative overflow-hidden w-[calc(var(--u)*168)] h-[calc(var(--u)*196)] rounded-[calc(var(--u)*12)] bg-[#222222] border border-black/15">
             <img
               src={diffImg}
               alt="Diff Editor project preview"
-              className={`w-full h-full object-cover transition-transform duration-500 ease-out ${qHovered ? "scale-115" : "scale-100"}`}
+              className={`w-full h-full object-cover transition-transform duration-500 ease-out ${
+                qHovered ? "scale-110" : "scale-100"
+              }`}
             />
 
             <div
-              className={`absolute flex items-center justify-center rounded-full text-white transition-transform duration-300 right-[calc(var(--u)*12)] bottom-[calc(var(--u)*16)] w-[calc(var(--u)*36)] h-[calc(var(--u)*36)] bg-white/30 backdrop-blur-md border border-white/40 ${qHovered ? "rotate-45" : "rotate-0"}`}
+              className={`absolute flex items-center justify-center rounded-full text-white transition-transform duration-300 right-[calc(var(--u)*12)] bottom-[calc(var(--u)*16)] w-[calc(var(--u)*36)] h-[calc(var(--u)*36)] bg-white/30 backdrop-blur-[8px] border border-white/40 ${
+                qHovered ? "rotate-45" : "rotate-0"
+              }`}
             >
               <svg
                 viewBox="0 0 16 16"
@@ -485,6 +622,7 @@ const EditorialHero = () => {
                 stroke="currentColor"
                 strokeWidth="2"
                 className="w-[calc(var(--u)*14)] h-[calc(var(--u)*14)]"
+                aria-hidden="true"
               >
                 <path d="M4 12L12 4M12 4H6M12 4V10" />
               </svg>
@@ -492,15 +630,25 @@ const EditorialHero = () => {
 
             <div className="absolute left-0 right-0 bottom-0 h-[calc(var(--u)*3)] bg-white/35">
               <div
-                className={`h-full bg-white transition-all duration-1000 ease-out ${loaded ? "w-full" : "w-0"}`}
+                className={`h-full bg-white transition-all duration-1000 ease-out ${
+                  loaded ? "w-full" : "w-0"
+                }`}
               />
             </div>
           </div>
-        </div>
+        </button>
       </div>
 
-      <div className="flex md:hidden flex-col w-full px-5 pt-6 pb-10">
-        <header className="w-full flex items-center justify-end mb-8 pt-1">
+      <div className="flex md:hidden flex-col w-full px-5 pt-6 pb-10 relative z-20">
+        <header className="w-full flex items-center justify-between mb-8 pt-1">
+          <span
+            className={`inline-flex items-center gap-1.5 text-[11px] font-mono uppercase ${
+              isDark ? "text-zinc-300" : "text-[#333333]"
+            }`}
+          >
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+            <span>Dhaka · [2026]</span>
+          </span>
           <a
             href="#contact"
             onClick={(e) => {
@@ -545,19 +693,30 @@ const EditorialHero = () => {
               sweep
             />
           </div>
-          <h1 className="font-archivo font-bold uppercase leading-[0.88] text-[calc(var(--u)*48)] text-[#111111] [font-stretch:104%] [font-weight:640] [letter-spacing:-0.05em] mt-1">
+          <h1
+            className={`font-archivo font-bold uppercase leading-[0.88] text-[calc(var(--u)*48)] [font-stretch:104%] [font-weight:640] [letter-spacing:-0.05em] mt-1 transition-colors duration-500 ${
+              isDark ? "text-[#f4f4f0]" : "text-[#111111]"
+            }`}
+          >
             DEVELOPER
           </h1>
         </div>
 
         <aside className="flex flex-col items-start mb-6">
-          <span className="font-interTight font-semibold flex items-center gap-1.5 uppercase text-[#111111] text-[calc(var(--u)*12)] [letter-spacing:0.04em]">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#111111]" />
-            (ABOUT)
+          <span
+            className={`font-mono font-semibold flex items-center gap-1.5 uppercase text-[calc(var(--u)*12)] [letter-spacing:0.06em] ${
+              isDark ? "text-[#f4f4f0]" : "text-[#111111]"
+            }`}
+          >
+            <span className="w-1.5 h-1.5 rounded-full bg-[#111111]" />[ ABOUT ]
           </span>
-          <p className="font-interTight font-normal leading-[1.45] mt-2 text-[#2a2a2a] text-[calc(var(--u)*14)]">
-            Engineering responsive, pixel-perfect web interfaces with React,
-            Next.js, and TypeScript.
+          <p
+            className={`font-interTight font-normal leading-[1.45] mt-2 text-[calc(var(--u)*14)] ${
+              isDark ? "text-zinc-300" : "text-[#2a2a2a]"
+            }`}
+          >
+            Frontend Developer specializing primarily in Next.js and React,
+            crafting responsive, high-performance web applications.
           </p>
           <button
             type="button"
@@ -569,7 +728,7 @@ const EditorialHero = () => {
         </aside>
 
         <div className="w-full flex flex-col items-center justify-center my-6">
-          <div className="rounded-2xl border border-[#111111]/15 bg-white/40 backdrop-blur-md p-2.5 shadow-lg">
+          <div className="rounded-2xl border border-[#111111]/15 bg-white/45 backdrop-blur-[8px] p-2.5 shadow-lg">
             <Mascot
               directions="/mascots/rafid-directions.webp"
               reactions="/mascots/rafid-reactions.webp"
@@ -580,8 +739,8 @@ const EditorialHero = () => {
           </div>
 
           <div className="z-20 flex items-center justify-center w-fit mt-3 transition-all duration-700">
-            <span className="font-founderGrotest font-bold text-[#111111] uppercase text-[calc(var(--u)*24)] [font-stretch:120%] [letter-spacing:0.14em] text-center">
-              MOSTAFA AL RAFID
+            <span className="!font-bricolage font-bold text-[#0F42C0] text-[calc(var(--u)*26)] text-center">
+              Mostafa Al Rafid
             </span>
           </div>
         </div>
@@ -604,14 +763,42 @@ const EditorialHero = () => {
               Experience ↗
             </button>
           </div>
+
+          <div className="flex-1 bg-[#f4f4f0] text-[#111111] flex flex-col justify-between p-3.5 rounded-xl">
+            <div>
+              <div className="font-archivo font-bold leading-none text-[calc(var(--u)*22)]">
+                {countProjects}+
+              </div>
+              <div className="font-interTight font-medium text-[#555555] mt-0.5 text-[calc(var(--u)*10)]">
+                Projects Shipped
+              </div>
+            </div>
+            <button
+              type="button"
+              onClick={() => scrollToId("projects")}
+              className="w-full bg-[#111111] text-white flex items-center justify-center font-interTight font-semibold py-1 rounded text-center mt-3 cursor-pointer text-[calc(var(--u)*10)]"
+            >
+              View works ↗
+            </button>
+          </div>
         </div>
 
         <div className="w-full flex flex-col">
-          <div className="flex items-center justify-between text-[#111111] font-interTight font-medium mb-1 text-xs">
+          <div
+            className={`flex items-center justify-between font-mono mb-1 text-xs ${
+              isDark ? "text-zinc-300" : "text-[#111111]"
+            }`}
+          >
             <span>Featured</span>
-            <span className="text-[#555555]">[2025]</span>
+            <span className={isDark ? "text-teal-400" : "text-[#555555]"}>
+              [2025]
+            </span>
           </div>
-          <div className="font-archivo font-bold text-[#111111] uppercase mb-2 text-sm">
+          <div
+            className={`font-archivo font-bold uppercase mb-2 text-sm ${
+              isDark ? "text-[#f4f4f0]" : "text-[#111111]"
+            }`}
+          >
             Diff Editor
           </div>
           <div
@@ -623,7 +810,7 @@ const EditorialHero = () => {
               alt="Diff Editor preview"
               className="w-full h-full object-cover"
             />
-            <div className="absolute flex items-center justify-center rounded-full text-white right-3 bottom-3 w-9 h-9 bg-white/30 backdrop-blur-md border border-white/50">
+            <div className="absolute flex items-center justify-center rounded-full text-white right-3 bottom-3 w-9 h-9 bg-white/30 backdrop-blur-[8px] border border-white/50">
               ↗
             </div>
           </div>

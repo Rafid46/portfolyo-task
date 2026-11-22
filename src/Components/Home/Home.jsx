@@ -1,85 +1,96 @@
-import { useEffect, useState } from "react";
-import { IoIosArrowUp } from "react-icons/io";
 import EditorialHero from "./EditorialHero";
+import EditorialBar from "./EditorialBar";
 import EditorialManifesto from "./EditorialManifesto";
 import Projects from "./Projects";
+import EditorialImpact from "./EditorialImpact";
 import NewSkill from "./NewSkill";
 import Educations from "../Educations";
 import SpecialFooter from "./SpecialFooter";
 import FooterReveal from "./FooterReveal";
 import Reveal from "../motion/Reveal";
-import { scrollToTop } from "../../lib/smoothScroll";
 
 const Home = () => {
-  const [topButton, setTopButton] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setTopButton(window.scrollY > 300);
-    };
-
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    handleScroll();
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
-
   return (
-    <div className="w-full min-h-screen bg-black text-[#f4f4f4] font-interTight relative selection:bg-[#111111] selection:text-white">
+    <div className="w-full min-h-screen bg-[#08080a] text-[#f4f4f0] font-interTight relative selection:bg-teal-400 selection:text-[#08080a]">
       <FooterReveal footer={<SpecialFooter />}>
         <main>
           <EditorialHero />
+          <EditorialBar />
           <EditorialManifesto />
-
-          <section
-            id="skills"
-            aria-label="Skills and Technologies"
-            className="max-w-6xl mx-auto px-5 sm:px-8 py-16 sm:py-20"
-          >
-            <Reveal className="mb-8" y={30}>
-              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-archivo font-semibold text-white">
-                Skills &amp; Technologies
-                <span className="text-neutral-500">.</span>
-              </h2>
-            </Reveal>
-            <NewSkill />
-          </section>
 
           <section
             id="projects"
             aria-label="Featured Projects"
-            className="max-w-7xl mx-auto px-4 sm:px-8 py-16 sm:py-20"
+            className="max-w-7xl mx-auto px-5 sm:px-8 py-20 sm:py-24"
           >
-            <Reveal className="mb-8 px-2" y={30}>
-              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-archivo font-semibold text-white">
-                Featured Projects<span className="text-neutral-500">.</span>
-              </h2>
+            <Reveal className="mb-10" y={28}>
+              <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-white/10 pb-6">
+                <div>
+                  <span className="text-xs font-mono uppercase text-teal-400 block mb-2">
+                    02 — Selected Works
+                  </span>
+                  <h2 className="text-3xl sm:text-4xl lg:text-5xl font-archivo font-semibold text-[#f4f4f0]">
+                    Featured Projects
+                    <span className="text-teal-400">.</span>
+                  </h2>
+                </div>
+                <p className="text-xs font-mono uppercase text-zinc-400">
+                  Click preview to inspect details
+                </p>
+              </div>
             </Reveal>
             <Projects />
           </section>
 
           <section
+            id="skills"
+            aria-label="Skills and Technologies"
+            className="max-w-7xl mx-auto px-5 sm:px-8 py-20 sm:py-24"
+          >
+            <Reveal className="mb-10" y={28}>
+              <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-white/10 pb-6">
+                <div>
+                  <span className="text-xs font-mono uppercase text-teal-400 block mb-2">
+                    03 — Capabilities
+                  </span>
+                  <h2 className="text-3xl sm:text-4xl lg:text-5xl font-archivo font-semibold text-[#f4f4f0]">
+                    Skills &amp; Technologies
+                    <span className="text-teal-400">.</span>
+                  </h2>
+                </div>
+                <p className="text-xs font-mono uppercase text-zinc-400">
+                  Frontend · State · Backend
+                </p>
+              </div>
+            </Reveal>
+            <NewSkill />
+          </section>
+
+          <section
             id="experience"
             aria-label="Experience and Education"
-            className="max-w-6xl mx-auto px-5 sm:px-8 py-16 sm:py-20"
+            className="max-w-7xl mx-auto px-5 sm:px-8 py-20 sm:py-24"
           >
+            <Reveal className="mb-10" y={28}>
+              <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-white/10 pb-6">
+                <div>
+                  <span className="text-xs font-mono uppercase text-teal-400 block mb-2">
+                    04 — Background
+                  </span>
+                  <h2 className="text-3xl sm:text-4xl lg:text-5xl font-archivo font-semibold text-[#f4f4f0]">
+                    Experience &amp; Education
+                    <span className="text-teal-400">.</span>
+                  </h2>
+                </div>
+                <p className="text-xs font-mono uppercase text-zinc-400">
+                  Timeline &amp; Credentials
+                </p>
+              </div>
+            </Reveal>
             <Educations />
           </section>
         </main>
       </FooterReveal>
-
-      {topButton && (
-        <button
-          type="button"
-          className="fixed bottom-6 right-6 lg:bottom-10 lg:right-10 w-12 h-12 text-2xl text-white bg-neutral-900/90 border border-neutral-700/80 backdrop-blur-md rounded-full flex items-center justify-center z-50 transition-all hover:scale-110 hover:border-white focus-visible:outline-none shadow-xl cursor-pointer"
-          onClick={scrollToTop}
-          aria-label="Scroll to top"
-        >
-          <IoIosArrowUp />
-        </button>
-      )}
     </div>
   );
 };
