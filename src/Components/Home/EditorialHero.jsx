@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from "react";
 import { scrollToId } from "../../lib/smoothScroll";
-import diffImg from "../../assets/diff.png";
 import Mascot from "../Mascot/Mascot";
 import TechText from "./TechText";
 import GooeyNav from "./GooeyNav";
@@ -26,9 +25,10 @@ const TECH_MARKS = [
   { name: "Node.js", glyph: "M7 1l4 7H3zm0 5l4 8H3z" },
 ];
 
-const EditorialHero = () => {
+const SHOW_EXP_CARD = false;
+
+const EditorialHero = ({ isWarmSection = false }) => {
   const [activeNavIdx, setActiveNavIdx] = useState(0);
-  const [qHovered, setQHovered] = useState(false);
   const [loaded, setLoaded] = useState(false);
   const [countExp, setCountExp] = useState(0);
   const [countProjects, setCountProjects] = useState(0);
@@ -36,7 +36,7 @@ const EditorialHero = () => {
   const isNavClickRef = useRef(false);
   const navClickTimerRef = useRef(null);
 
-  const isDark = scrollY > 280;
+  const isDark = scrollY > 280 && !isWarmSection;
 
   const handleNavChange = (index, item) => {
     setActiveNavIdx(index);
@@ -134,10 +134,20 @@ const EditorialHero = () => {
     <section
       id="home"
       aria-label="Hero"
-      className={`relative w-full overflow-hidden min-h-[calc(var(--u)*938)] pb-[calc(var(--u)*40)] md:pb-0 transition-colors duration-700 ease-out ${
-        isDark ? "bg-[#08080a]" : "bg-[#dadada]"
-      }`}
+      className="relative w-full overflow-hidden min-h-[calc(var(--u)*938)] pb-[calc(var(--u)*40)] md:pb-0 bg-transparent"
     >
+      <div
+        aria-hidden="true"
+        className={`pointer-events-none absolute inset-0 bg-[#dadada] transition-opacity duration-700 ease-out ${
+          isDark || isWarmSection ? "opacity-0" : "opacity-100"
+        }`}
+        style={{
+          maskImage: "linear-gradient(to bottom, black 75%, transparent 100%)",
+          WebkitMaskImage:
+            "linear-gradient(to bottom, black 75%, transparent 100%)",
+        }}
+      />
+
       <div
         aria-hidden="true"
         className={`pointer-events-none absolute inset-0 transition-opacity duration-700 ${
@@ -147,17 +157,10 @@ const EditorialHero = () => {
           backgroundImage:
             "linear-gradient(to right, rgba(17,17,17,0.35) 1px, transparent 1px), linear-gradient(to bottom, rgba(17,17,17,0.35) 1px, transparent 1px)",
           backgroundSize: "72px 72px",
+          maskImage: "linear-gradient(to bottom, black 78%, transparent 100%)",
+          WebkitMaskImage:
+            "linear-gradient(to bottom, black 78%, transparent 100%)",
         }}
-      />
-
-      <div
-        className={`absolute left-0 right-0 bottom-0 h-[calc(var(--u)*360)] pointer-events-none bg-gradient-to-b from-transparent via-black/60 to-[#08080a] transition-opacity duration-700 ease-out z-10 ${
-          scrollY > 160
-            ? "opacity-100"
-            : scrollY > 60
-              ? "opacity-70"
-              : "opacity-0"
-        }`}
       />
 
       <header className="fixed z-50 transition-all duration-700 ease-out left-4 md:left-[calc(var(--u)*57)] top-4 md:top-[calc(var(--u)*40)]">
@@ -166,8 +169,8 @@ const EditorialHero = () => {
             items={NAV_ITEMS}
             initialActiveIndex={0}
             activeIndex={activeNavIdx}
-            theme="dark"
-            color={isDark ? "#ffffffff" : "#383737ff"}
+            theme={isDark && !isWarmSection ? "dark" : "light"}
+            color={isDark && !isWarmSection ? "#ffffffff" : "#383737ff"}
             size="lg"
             frame={false}
             particleCount={24}
@@ -472,22 +475,6 @@ const EditorialHero = () => {
               </span>
             ))}
           </div>
-
-          <div className="mt-[calc(var(--u)*26)]">
-            <Magnetic strength={0.3}>
-              <button
-                type="button"
-                onClick={() => scrollToId("projects")}
-                className="flex items-center justify-between gap-4 pl-5 pr-2 bg-[#111111] hover:bg-[#1a1a1f] text-white rounded-[18px] font-interTight font-medium transition-transform duration-200 hover:-translate-y-px cursor-pointer h-[calc(var(--u)*44)] text-[calc(var(--u)*14)] shadow-[0_calc(var(--u)*4)_calc(var(--u)*12)_rgba(0,0,0,0.12)]"
-              >
-                <span>Explore Projects</span>
-                <div className="bg-zinc-800 px-3 py-2.5 rounded-[12px] flex items-center gap-1.5">
-                  <div className="rounded-full w-[4px] h-[8px] bg-white" />
-                  <div className="rounded-full w-[4px] h-[8px] bg-white" />
-                </div>
-              </button>
-            </Magnetic>
-          </div>
         </aside>
 
         <div
@@ -545,98 +532,173 @@ const EditorialHero = () => {
           </div>
         </div>
 
-        <div
-          className={`absolute z-20 flex gap-2 left-[calc(var(--u)*57)] top-[calc(var(--u)*693)] w-[calc(var(--u)*341)] h-[calc(var(--u)*208)] bg-[#cdcdcd] rounded-[calc(var(--u)*14)] p-[calc(var(--u)*8)] transition-all duration-700 ease-out delay-[360ms] ${
-            loaded
-              ? "translate-y-0 opacity-100"
-              : "translate-y-[calc(var(--u)*14)] opacity-0"
-          }`}
-        >
-          <div className="flex-1 bg-[#161616] text-white flex flex-col justify-between rounded-[calc(var(--u)*10)] p-[calc(var(--u)*12)]">
-            <div>
-              <div className="font-archivo font-bold text-white leading-none text-[calc(var(--u)*26)]">
-                {countExp}+ Years
-              </div>
-              <div className="font-interTight font-medium text-[#999999] mt-1 text-[calc(var(--u)*11)]">
-                Frontend Experience
-              </div>
-            </div>
-
-            <button
-              type="button"
-              onClick={() => scrollToId("experience")}
-              className="w-full bg-white text-[#111111] flex items-center justify-center font-interTight font-semibold hover:bg-[#eaeaea] transition-colors cursor-pointer rounded-[calc(var(--u)*6)] py-[calc(var(--u)*6)] text-[calc(var(--u)*11)]"
-            >
-              Experience ↗
-            </button>
-          </div>
-        </div>
-
-        <button
-          type="button"
-          onMouseEnter={() => setQHovered(true)}
-          onMouseLeave={() => setQHovered(false)}
-          onClick={() => scrollToId("projects")}
-          aria-label="Jump to Diff Editor featured project"
-          className={`absolute z-20 flex flex-col text-left cursor-pointer group left-[calc(var(--u)*1216)] top-[calc(var(--u)*442)] w-[calc(var(--u)*168)] transition-all duration-700 ease-out delay-[320ms] bg-transparent border-none p-0 ${
-            loaded
-              ? "translate-y-0 opacity-100"
-              : "translate-y-[calc(var(--u)*14)] opacity-0"
-          }`}
-        >
+        {SHOW_EXP_CARD && (
           <div
-            className={`flex items-center justify-between w-full font-mono mb-1.5 text-[calc(var(--u)*11)] transition-colors duration-500 ${
-              isDark ? "text-zinc-300" : "text-[#111111]"
+            className={`group/exp absolute z-20 right-[calc(var(--u)*57)] top-[calc(var(--u)*446)] w-[calc(var(--u)*242)] transition-all duration-700 ease-out delay-[320ms] ${
+              loaded
+                ? "translate-y-0 opacity-100"
+                : "translate-y-[calc(var(--u)*14)] opacity-0"
             }`}
           >
-            <span>Featured</span>
-            <span className={isDark ? "text-teal-400" : "text-[#555555]"}>
-              [2025]
-            </span>
-          </div>
-          <div
-            className={`font-archivo font-bold uppercase mb-2 leading-none text-[calc(var(--u)*14)] transition-colors duration-500 ${
-              isDark ? "text-[#f4f4f0]" : "text-[#111111]"
-            }`}
-          >
-            Diff Editor
-          </div>
-
-          <div className="relative overflow-hidden w-[calc(var(--u)*168)] h-[calc(var(--u)*196)] rounded-[calc(var(--u)*12)] bg-[#222222] border border-black/15">
-            <img
-              src={diffImg}
-              alt="Diff Editor project preview"
-              className={`w-full h-full object-cover transition-transform duration-500 ease-out ${
-                qHovered ? "scale-110" : "scale-100"
-              }`}
+            <div
+              aria-hidden="true"
+              className="absolute inset-0 rounded-[calc(var(--u)*18)] bg-[#9D8CF5] border-2 border-[#111111] -rotate-3 group-hover/exp:-rotate-6 group-hover/exp:-translate-x-1 transition-transform duration-300"
             />
 
             <div
-              className={`absolute flex items-center justify-center rounded-full text-white transition-transform duration-300 right-[calc(var(--u)*12)] bottom-[calc(var(--u)*16)] w-[calc(var(--u)*36)] h-[calc(var(--u)*36)] bg-white/30 backdrop-blur-[8px] border border-white/40 ${
-                qHovered ? "rotate-45" : "rotate-0"
-              }`}
+              onClick={() => scrollToId("experience")}
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault();
+                  scrollToId("experience");
+                }
+              }}
+              aria-label="View 2+ Years Frontend Experience"
+              className="relative rounded-[calc(var(--u)*18)] bg-[#F2B418] text-[#111111] border-2 border-[#111111] p-[calc(var(--u)*16)] flex flex-col justify-between gap-[calc(var(--u)*12)] rotate-[1.5deg] group-hover/exp:rotate-0 group-hover/exp:-translate-y-1 shadow-[calc(var(--u)*6)_calc(var(--u)*6)_0px_#111111] group-hover/exp:shadow-[calc(var(--u)*8)_calc(var(--u)*8)_0px_#0F42C0] transition-all duration-300 cursor-pointer"
             >
-              <svg
-                viewBox="0 0 16 16"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                className="w-[calc(var(--u)*14)] h-[calc(var(--u)*14)]"
-                aria-hidden="true"
-              >
-                <path d="M4 12L12 4M12 4H6M12 4V10" />
-              </svg>
-            </div>
+              <div className="absolute -top-[calc(var(--u)*13)] left-[calc(var(--u)*14)] inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-[#0F42C0] text-white border-2 border-[#111111] text-[calc(var(--u)*10)] font-mono font-bold -rotate-3 group-hover/exp:rotate-0 transition-transform shadow-[2px_2px_0px_#111111]">
+                <svg
+                  viewBox="0 0 12 12"
+                  fill="currentColor"
+                  aria-hidden="true"
+                  className="w-[calc(var(--u)*9)] h-[calc(var(--u)*9)]"
+                >
+                  <path d="M1 1l4 10 1.6-3.8L10.5 5.5 1 1z" />
+                </svg>
+                <span>2024–NOW</span>
+              </div>
 
-            <div className="absolute left-0 right-0 bottom-0 h-[calc(var(--u)*3)] bg-white/35">
-              <div
-                className={`h-full bg-white transition-all duration-1000 ease-out ${
-                  loaded ? "w-full" : "w-0"
-                }`}
-              />
+              <div className="flex items-start justify-between pt-1">
+                <span className="font-mono font-bold text-[calc(var(--u)*12)] text-[#111111]/75">
+                  01
+                </span>
+                <span className="w-[calc(var(--u)*36)] h-[calc(var(--u)*36)] rounded-full border-2 border-dashed border-[#D94826] bg-[#FFFDF9] flex items-center justify-center group-hover/exp:scale-110 group-hover/exp:rotate-12 transition-transform">
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    aria-hidden="true"
+                    className="w-[calc(var(--u)*18)] h-[calc(var(--u)*18)]"
+                  >
+                    <path
+                      d="M12 3l2.2 4.8L19.5 9l-3.8 3.6.9 5.2L12 15.3l-4.6 2.5.9-5.2L4.5 9l5.3-1.2L12 3z"
+                      fill="#F2B418"
+                      stroke="#D94826"
+                      strokeWidth="2"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </span>
+              </div>
+
+              <div>
+                <div className="!font-bricolage font-bold text-[#111111] leading-none text-[calc(var(--u)*34)]">
+                  {countExp}+ Years
+                </div>
+                <div className="font-interTight font-semibold text-[#111111]/80 mt-1 text-[calc(var(--u)*12)]">
+                  Frontend Experience
+                </div>
+                <div className="flex flex-wrap gap-1.5 mt-2.5">
+                  <span className="px-2 py-0.5 rounded-full bg-[#FFFDF9] border border-[#111111] text-[calc(var(--u)*10)] font-mono font-semibold text-[#111111]">
+                    React · Next.js
+                  </span>
+                  <span className="px-2 py-0.5 rounded-full border border-[#111111] text-[calc(var(--u)*10)] font-mono font-semibold text-[#111111]">
+                    Production
+                  </span>
+                </div>
+              </div>
+
+              <Magnetic strength={0.2} radius={60}>
+                <div className="w-full bg-[#111111] group-hover/exp:bg-[#0F42C0] text-white flex items-center justify-between px-3.5 py-[calc(var(--u)*8)] rounded-full font-interTight font-semibold transition-colors text-[calc(var(--u)*12)]">
+                  <span>Experience</span>
+                  <span className="inline-block group-hover/exp:translate-x-0.5 group-hover/exp:-translate-y-0.5 transition-transform">
+                    ↗
+                  </span>
+                </div>
+              </Magnetic>
             </div>
           </div>
-        </button>
+        )}
+
+        {!SHOW_EXP_CARD && (
+          <div
+            className={`group/proj absolute z-20 right-[calc(var(--u)*57)] top-[calc(var(--u)*446)] w-[calc(var(--u)*258)] transition-all duration-700 ease-out delay-[320ms] ${
+              loaded
+                ? "translate-y-0 opacity-100"
+                : "translate-y-[calc(var(--u)*14)] opacity-0"
+            }`}
+          >
+            <div
+              aria-hidden="true"
+              className="absolute inset-0 rounded-xl bg-[#6EE7B7] border-2 border-[#111111] -rotate-[5deg] -translate-x-1.5 translate-y-1 group-hover/proj:-rotate-[9deg] group-hover/proj:-translate-x-3.5 transition-transform duration-300"
+            />
+            <div
+              aria-hidden="true"
+              className="absolute inset-0 rounded-xl bg-[#9D8CF5] border-2 border-[#111111] rotate-[4deg] translate-x-1.5 translate-y-1 group-hover/proj:rotate-[8deg] group-hover/proj:translate-x-3.5 transition-transform duration-300"
+            />
+
+            <div
+              onClick={() => scrollToId("projects")}
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault();
+                  scrollToId("projects");
+                }
+              }}
+              aria-label="Explore Featured Projects"
+              className="relative rounded-xl bg-[#FFFDF9] text-[#111111] border-2 border-[#111111] p-[calc(var(--u)*18)] flex flex-col justify-between gap-[calc(var(--u)*14)] group-hover/proj:-translate-y-1.5 shadow-[calc(var(--u)*6)_calc(var(--u)*6)_0px_#111111] group-hover/proj:shadow-[calc(var(--u)*10)_calc(var(--u)*10)_0px_#0F42C0] transition-all duration-300 cursor-pointer"
+            >
+              <div className="absolute -top-[calc(var(--u)*13)] left-[calc(var(--u)*16)] inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-[#D94826] text-[#FFFDF9] border-2 border-[#111111] text-[calc(var(--u)*10)] font-mono font-bold -rotate-2 group-hover/proj:rotate-0 transition-transform shadow-[2px_2px_0px_#111111]">
+                <span className="w-[calc(var(--u)*6)] h-[calc(var(--u)*6)] rounded-full bg-[#F2B418]" />
+                <span>SELECTED · WORK</span>
+              </div>
+
+              <div className="flex items-center justify-between pt-1">
+                <span className="font-mono font-bold text-[calc(var(--u)*11)] text-[#111111]/65">
+                  {countProjects}+ BUILT
+                </span>
+                <div className="flex items-center -space-x-1.5">
+                  <span className="w-[calc(var(--u)*14)] h-[calc(var(--u)*14)] rounded-full bg-[#1548EB] border-2 border-[#111111]" />
+                  <span className="w-[calc(var(--u)*14)] h-[calc(var(--u)*14)] rounded-full bg-[#D94826] border-2 border-[#111111]" />
+                  <span className="w-[calc(var(--u)*14)] h-[calc(var(--u)*14)] rounded-full bg-[#6EE7B7] border-2 border-[#111111]" />
+                </div>
+              </div>
+
+              <div>
+                <div className="!font-bricolage font-bold text-[#111111] leading-[1.05] text-[calc(var(--u)*26)]">
+                  Explore Projects
+                </div>
+                <p className="font-interTight text-[#111111]/70 mt-1 text-[calc(var(--u)*11)]">
+                  Hand-crafted apps &amp; dev tools
+                </p>
+
+                <div className="flex flex-wrap gap-1.5 mt-3">
+                  <span className="px-2.5 py-0.5 rounded-full bg-[#F9F0E8] border border-[#111111] text-[calc(var(--u)*10)] font-mono font-semibold text-[#111111] -rotate-1 group-hover/proj:rotate-0 transition-transform">
+                    Acadizo
+                  </span>
+                  <span className="px-2.5 py-0.5 rounded-full bg-[#F2B418]/45 border border-[#111111] text-[calc(var(--u)*10)] font-mono font-semibold text-[#111111] rotate-1 group-hover/proj:rotate-0 transition-transform">
+                    Diffy
+                  </span>
+                  <span className="px-2.5 py-0.5 rounded-full bg-[#6EE7B7]/55 border border-[#111111] text-[calc(var(--u)*10)] font-mono font-semibold text-[#111111] -rotate-1 group-hover/proj:rotate-0 transition-transform">
+                    Hane
+                  </span>
+                </div>
+              </div>
+
+              <Magnetic strength={0.22} radius={70}>
+                <div className="w-full bg-[#111111] group-hover/proj:bg-[#0F42C0] text-white flex items-center justify-between pl-4 pr-1.5 py-[calc(var(--u)*6)] rounded-full font-interTight font-semibold transition-colors text-[calc(var(--u)*12)]">
+                  <span>View Showcase</span>
+                  <span className="w-[calc(var(--u)*26)] h-[calc(var(--u)*26)] rounded-full bg-[#F2B418] text-[#111111] flex items-center justify-center font-bold group-hover/proj:rotate-45 transition-transform">
+                    ↗
+                  </span>
+                </div>
+              </Magnetic>
+            </div>
+          </div>
+        )}
       </div>
 
       <div className="flex md:hidden flex-col w-full px-5 pt-6 pb-10 relative z-20">
@@ -718,13 +780,6 @@ const EditorialHero = () => {
             Frontend Developer specializing primarily in Next.js and React,
             crafting responsive, high-performance web applications.
           </p>
-          <button
-            type="button"
-            onClick={() => scrollToId("projects")}
-            className="mt-4 inline-flex items-center justify-center bg-[#111111] text-white rounded-full font-interTight font-medium px-6 py-2.5 cursor-pointer text-[calc(var(--u)*13)]"
-          >
-            Explore Projects ↗
-          </button>
         </aside>
 
         <div className="w-full flex flex-col items-center justify-center my-6">
@@ -745,75 +800,79 @@ const EditorialHero = () => {
           </div>
         </div>
 
-        <div className="w-full flex gap-2.5 mb-8 bg-[#cdcdcd] rounded-[calc(var(--u)*14)] p-[calc(var(--u)*8)]">
-          <div className="flex-1 bg-[#161616] text-white flex flex-col justify-between p-3.5 rounded-xl">
-            <div>
-              <div className="font-archivo font-bold leading-none text-[calc(var(--u)*22)]">
-                {countExp}+ Years
-              </div>
-              <div className="font-interTight font-medium text-[#999999] mt-0.5 text-[calc(var(--u)*10)]">
-                Frontend Craft
-              </div>
-            </div>
+        <div
+          className={`w-full grid gap-3 mb-8 ${
+            SHOW_EXP_CARD ? "grid-cols-2" : "grid-cols-1"
+          }`}
+        >
+          {SHOW_EXP_CARD && (
             <button
               type="button"
               onClick={() => scrollToId("experience")}
-              className="w-full bg-white text-[#111111] flex items-center justify-center font-interTight font-semibold py-1 rounded text-center mt-3 cursor-pointer text-[calc(var(--u)*10)]"
+              className="text-left bg-[#F2B418] text-[#111111] border-2 border-[#111111] rounded-2xl p-3.5 -rotate-1 active:rotate-0 shadow-[4px_4px_0px_#111111] flex flex-col justify-between cursor-pointer"
             >
-              Experience ↗
-            </button>
-          </div>
-
-          <div className="flex-1 bg-[#f4f4f0] text-[#111111] flex flex-col justify-between p-3.5 rounded-xl">
-            <div>
-              <div className="font-archivo font-bold leading-none text-[calc(var(--u)*22)]">
-                {countProjects}+
+              <div>
+                <div className="flex items-center justify-between mb-1">
+                  <span className="font-mono font-bold text-[10px] opacity-70">
+                    01
+                  </span>
+                  <span className="px-1.5 py-0.5 rounded-full bg-[#0F42C0] text-white text-[9px] font-mono font-bold">
+                    2024–NOW
+                  </span>
+                </div>
+                <div className="!font-bricolage font-bold leading-none text-[calc(var(--u)*26)]">
+                  {countExp}+ Years
+                </div>
+                <div className="font-interTight font-semibold text-[#111111]/80 mt-1 text-[calc(var(--u)*10)]">
+                  Frontend Craft
+                </div>
               </div>
-              <div className="font-interTight font-medium text-[#555555] mt-0.5 text-[calc(var(--u)*10)]">
-                Projects Shipped
-              </div>
-            </div>
-            <button
-              type="button"
-              onClick={() => scrollToId("projects")}
-              className="w-full bg-[#111111] text-white flex items-center justify-center font-interTight font-semibold py-1 rounded text-center mt-3 cursor-pointer text-[calc(var(--u)*10)]"
-            >
-              View works ↗
+              <span className="w-full bg-[#111111] text-white flex items-center justify-between font-interTight font-semibold px-2.5 py-1.5 rounded-full mt-3 text-[calc(var(--u)*10)]">
+                <span>Experience</span>
+                <span>↗</span>
+              </span>
             </button>
-          </div>
-        </div>
+          )}
 
-        <div className="w-full flex flex-col">
-          <div
-            className={`flex items-center justify-between font-mono mb-1 text-xs ${
-              isDark ? "text-zinc-300" : "text-[#111111]"
-            }`}
-          >
-            <span>Featured</span>
-            <span className={isDark ? "text-teal-400" : "text-[#555555]"}>
-              [2025]
-            </span>
-          </div>
-          <div
-            className={`font-archivo font-bold uppercase mb-2 text-sm ${
-              isDark ? "text-[#f4f4f0]" : "text-[#111111]"
-            }`}
-          >
-            Diff Editor
-          </div>
-          <div
+          <button
+            type="button"
             onClick={() => scrollToId("projects")}
-            className="relative w-full overflow-hidden rounded-xl cursor-pointer h-[calc(var(--u)*220)]"
+            className="relative text-left bg-[#FFFDF9] text-[#111111] border-2 border-[#111111] rounded-lg p-4 shadow-[5px_5px_0px_#0F42C0] active:translate-y-0.5 flex flex-col justify-between gap-3 cursor-pointer"
           >
-            <img
-              src={diffImg}
-              alt="Diff Editor preview"
-              className="w-full h-full object-cover"
-            />
-            <div className="absolute flex items-center justify-center rounded-full text-white right-3 bottom-3 w-9 h-9 bg-white/30 backdrop-blur-[8px] border border-white/50">
-              ↗
+            <div className="flex items-center justify-between w-full">
+              <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#D94826] text-[#FFFDF9] border border-[#111111] text-[10px] font-mono font-bold">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#F2B418]" />
+                SELECTED · WORK
+              </span>
+              <span className="font-mono font-bold text-[11px] opacity-65">
+                {countProjects}+ BUILT
+              </span>
             </div>
-          </div>
+
+            <div>
+              <div className="!font-bricolage font-bold leading-tight text-[calc(var(--u)*24)]">
+                Explore Projects
+              </div>
+              <div className="flex flex-wrap gap-1.5 mt-2">
+                <span className="px-2 py-0.5 rounded-full bg-[#F9F0E8] border border-[#111111] text-[10px] font-mono font-semibold">
+                  Acadizo
+                </span>
+                <span className="px-2 py-0.5 rounded-full bg-[#F2B418]/45 border border-[#111111] text-[10px] font-mono font-semibold">
+                  Diffy
+                </span>
+                <span className="px-2 py-0.5 rounded-full bg-[#6EE7B7]/55 border border-[#111111] text-[10px] font-mono font-semibold">
+                  Hane
+                </span>
+              </div>
+            </div>
+
+            <span className="w-full bg-[#111111] text-white flex items-center justify-between font-interTight font-semibold pl-3.5 pr-1.5 py-1.5 rounded-full text-xs">
+              <span>View Showcase</span>
+              <span className="w-6 h-6 rounded-full bg-[#F2B418] text-[#111111] flex items-center justify-center font-bold">
+                ↗
+              </span>
+            </span>
+          </button>
         </div>
       </div>
     </section>

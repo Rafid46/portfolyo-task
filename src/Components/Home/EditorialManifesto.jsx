@@ -27,12 +27,39 @@ const STATEMENT_WORDS = [
   "experiences.",
 ];
 
-const EditorialManifesto = () => {
+const EditorialManifesto = ({ isWarm = false }) => {
   const statementRef = useRef(null);
   const wordRefs = useRef([]);
+  const isWarmRef = useRef(isWarm);
+  const progressRef = useRef(0);
+
+  useEffect(() => {
+    isWarmRef.current = isWarm;
+    const total = STATEMENT_WORDS.length;
+    const fillPoint = progressRef.current * (total + 3);
+    for (let idx = 0; idx < total; idx += 1) {
+      const el = wordRefs.current[idx];
+      if (!el) continue;
+      const distance = fillPoint - idx;
+      const ratio = Math.max(0, Math.min(distance / 3, 1));
+      if (isWarm) {
+        const r = Math.round(184 + ratio * (35 - 184));
+        const g = Math.round(170 + ratio * (23 - 170));
+        const b = Math.round(158 + ratio * (18 - 158));
+        el.style.color = `rgb(${r}, ${g}, ${b})`;
+      } else {
+        const r = Math.round(92 + ratio * (244 - 92));
+        const g = Math.round(92 + ratio * (244 - 92));
+        const b = Math.round(98 + ratio * (240 - 98));
+        el.style.color = `rgb(${r}, ${g}, ${b})`;
+      }
+    }
+  }, [isWarm]);
 
   useEffect(() => {
     const paintWords = (progress) => {
+      progressRef.current = progress;
+      const warm = isWarmRef.current;
       const total = STATEMENT_WORDS.length;
       const fillPoint = progress * (total + 3);
       for (let idx = 0; idx < total; idx += 1) {
@@ -40,10 +67,17 @@ const EditorialManifesto = () => {
         if (!el) continue;
         const distance = fillPoint - idx;
         const ratio = Math.max(0, Math.min(distance / 3, 1));
-        const r = Math.round(92 + ratio * (244 - 92));
-        const g = Math.round(92 + ratio * (244 - 92));
-        const b = Math.round(98 + ratio * (240 - 98));
-        el.style.color = `rgb(${r}, ${g}, ${b})`;
+        if (warm) {
+          const r = Math.round(184 + ratio * (35 - 184));
+          const g = Math.round(170 + ratio * (23 - 170));
+          const b = Math.round(158 + ratio * (18 - 158));
+          el.style.color = `rgb(${r}, ${g}, ${b})`;
+        } else {
+          const r = Math.round(92 + ratio * (244 - 92));
+          const g = Math.round(92 + ratio * (244 - 92));
+          const b = Math.round(98 + ratio * (240 - 98));
+          el.style.color = `rgb(${r}, ${g}, ${b})`;
+        }
       }
     };
 
@@ -87,14 +121,22 @@ const EditorialManifesto = () => {
       id="manifesto"
       ref={statementRef}
       aria-label="Manifesto"
-      className="w-full bg-[#08080a] py-24 sm:py-32 lg:py-40 px-5 sm:px-8 border-b border-white/10"
+      className="w-full bg-transparent  px-5 sm:px-8"
     >
       <div className="max-w-5xl mx-auto">
         <div className="flex items-center justify-between mb-8 sm:mb-12">
-          <span className="text-xs font-mono uppercase text-teal-400">
+          <span
+            className={`text-xs font-mono uppercase transition-colors duration-700 ${
+              isWarm ? "text-[#D94826]" : "text-teal-400"
+            }`}
+          >
             01 — Philosophy
           </span>
-          <span className="text-xs font-mono uppercase text-zinc-500">
+          <span
+            className={`text-xs font-mono uppercase transition-colors duration-700 ${
+              isWarm ? "text-[#6F5D52]" : "text-zinc-500"
+            }`}
+          >
             Craft &amp; Precision
           </span>
         </div>
@@ -106,7 +148,7 @@ const EditorialManifesto = () => {
               ref={(el) => {
                 wordRefs.current[idx] = el;
               }}
-              className="inline-block mr-[0.28em]"
+              className="inline-block mr-[0.28em] transition-colors duration-500"
               style={{ color: "rgb(92, 92, 98)" }}
             >
               {word}

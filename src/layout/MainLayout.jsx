@@ -1,7 +1,7 @@
 import { Outlet } from "react-router-dom";
 import GlowCursor from "../cursor/GlowCursor";
 import Preloader from "../Components/Home/Preloader";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useSmoothScroll } from "../lib/smoothScroll";
 
 const MainLayout = () => {
@@ -9,8 +9,12 @@ const MainLayout = () => {
 
   useSmoothScroll(!isLoading);
 
+  const handleLoaderComplete = useCallback(() => {
+    setIsLoading(false);
+  }, []);
+
   useEffect(() => {
-    const timer = setTimeout(() => setIsLoading(false), 3000);
+    const timer = setTimeout(() => setIsLoading(false), 2200);
     return () => clearTimeout(timer);
   }, []);
 
@@ -46,7 +50,7 @@ const MainLayout = () => {
             />
           </div>
         )}
-        {isLoading && <Preloader onComplete={() => setIsLoading(false)} />}
+        {isLoading && <Preloader onComplete={handleLoaderComplete} />}
       </div>
     </div>
   );

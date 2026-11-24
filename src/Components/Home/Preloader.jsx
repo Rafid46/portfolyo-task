@@ -1,19 +1,26 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 
 const Preloader = ({ onComplete }) => {
   const counterRef = useRef(null);
+  const onCompleteRef = useRef(onComplete);
+  const [contentVisible, setContentVisible] = useState(true);
+  const [contentFading, setContentFading] = useState(false);
+
+  useEffect(() => {
+    onCompleteRef.current = onComplete;
+  }, [onComplete]);
 
   useEffect(() => {
     const isReduced = window.matchMedia(
       "(prefers-reduced-motion: reduce)",
     ).matches;
     if (isReduced) {
-      if (onComplete) onComplete();
+      if (onCompleteRef.current) onCompleteRef.current();
       return undefined;
     }
 
-    const duration = 900;
+    const duration = 650;
     const start = performance.now();
     let frameId = 0;
 
@@ -28,13 +35,15 @@ const Preloader = ({ onComplete }) => {
 
       if (ratio < 1) {
         frameId = requestAnimationFrame(tick);
+      } else {
+        setContentFading(true);
       }
     };
 
     frameId = requestAnimationFrame(tick);
 
     return () => cancelAnimationFrame(frameId);
-  }, [onComplete]);
+  }, []);
 
   return (
     <div
@@ -44,52 +53,55 @@ const Preloader = ({ onComplete }) => {
       <motion.div
         initial={{ scale: 0 }}
         animate={{
-          scale: [0, 1, 1, 35],
+          scale: [0, 1, 1, 24],
         }}
         transition={{
-          duration: 2.2,
-          times: [0, 0.18, 0.42, 1],
+          duration: 1.6,
+          times: [0, 0.2, 0.48, 1],
           ease: [0.76, 0, 0.24, 1],
         }}
-        onAnimationComplete={onComplete}
+        onAnimationComplete={() => {
+          if (onCompleteRef.current) onCompleteRef.current();
+        }}
         className="w-[120px] h-[120px] rounded-full bg-transparent border border-white/30 will-change-transform"
         style={{
           boxShadow: "0 0 0 9999px #1d4ed8",
         }}
       />
 
-      <motion.div
-        initial={{ opacity: 1 }}
-        animate={{ opacity: [1, 1, 1, 0] }}
-        transition={{
-          duration: 2.2,
-          times: [0, 0.18, 0.42, 0.62],
-          ease: "easeOut",
-        }}
-        className="fixed inset-0 flex flex-col justify-between p-6 sm:p-10 text-white"
-      >
-        <div className="flex items-center justify-between text-xs font-mono uppercase text-white/80">
-          <span>Mostafa Al Rafid</span>
-          <span>Dhaka · BD</span>
-        </div>
+      {contentVisible && (
+        <motion.div
+          initial={{ opacity: 1 }}
+          animate={{ opacity: contentFading ? 0 : 1 }}
+          transition={{ duration: 0.2, ease: "easeOut" }}
+          onAnimationComplete={() => {
+            if (contentFading) setContentVisible(false);
+          }}
+          className="fixed inset-0 flex flex-col justify-between p-6 sm:p-10 text-white"
+        >
+          <div className="flex items-center justify-between text-xs font-mono uppercase text-white/80">
+            <span>Mostafa Al Rafid</span>
+            <span>Dhaka · BD</span>
+          </div>
 
-        <div className="flex items-end justify-between border-t border-white/20 pt-6">
-          <div>
-            <p className="text-xs font-mono uppercase text-teal-300 mb-2">
-              Portfolio System
-            </p>
-            <p className="font-archivo text-2xl sm:text-4xl font-semibold uppercase text-white">
-              Frontend Craft
-            </p>
+          <div className="flex items-end justify-between border-t border-white/20 pt-6">
+            <div>
+              <p className="text-xs font-mono uppercase text-teal-300 mb-2">
+                Portfolio System
+              </p>
+              <p className="font-archivo text-2xl sm:text-4xl font-semibold uppercase text-white">
+                Frontend Craft
+              </p>
+            </div>
+            <div
+              ref={counterRef}
+              className="font-archivo text-5xl sm:text-7xl font-bold tabular-nums text-white leading-none"
+            >
+              00
+            </div>
           </div>
-          <div
-            ref={counterRef}
-            className="font-archivo text-5xl sm:text-7xl font-bold tabular-nums text-white leading-none"
-          >
-            00
-          </div>
-        </div>
-      </motion.div>
+        </motion.div>
+      )}
     </div>
   );
 };
